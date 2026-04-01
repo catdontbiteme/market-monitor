@@ -677,28 +677,90 @@ def get_stock_kbars(symbol):
             return pd.DataFrame()
 # 💡 在你設定環境變數的地方加入 FMP_API_KEY
 # FMP_API_KEY = os.environ.get("FMP_API_KEY")
-def get_fundamental_risk_groq(symbol, stock_name, pe, pb, roe, rev_growth, margins):
-    # 此處假設你已經在前置作業抓好了 pe, pb 等數值，直接呼叫 AI (省略前面抓資料的部分，直接看 AI 請求)
+def get_fundamental_risk_groq(symbol, stock_name):
     print(f"🔎 [Llama 財報掃雷] 正在調閱 {stock_name} 的財務報表...")
-    groq_api_key = os.environ.get("GROQ_API_KEY")
-    if not groq_api_key: return "⚠️ 未設定 GROQ_API_KEY，無法啟動財報掃雷。"
+    # 阿土伯預設變數
+    pe = pb = roe = rev_growth = margins = '未知'
+    
+    fmp_key = os.environ.get("FMP_API_KEY")
+    
+    # 🌟 美股走專用高速公路 (FMP API)
+    if not symbol.endswith(".TW") and fmp_key:
+        try:
+            metrics_url = f"https://financialmodelingprep.com/api/v3/key-metrics/{symbol}?apikey={fmp_key}"
+            res = requests.get(metrics_url, timeout=5).json()
+            if len(res) > 0:
+                pe = round(res[0].get('peRatio', 0), 2)
+                pb = round(res[0].get('pbRatio', 0), 2)
+                roe = f"{round(res[0].get('roe', 0) * 100, 2)}%"
+                
+            growth_url = f"https://financialmodelingprep.com/api/v3/financial-growth/{symbol}?apikey={fmp_key}"
+            res_growth = requests.get(growth_url, timeout=5).json()
+            if len(res_growth) > 0:
+                rev_growth = f"{round(res_growth[0].get('revenueGrowth', 0) * 100, 2)}%"
+                
+            margins = "請參考ROE" # 簡化傳遞
+            print(f"✅ 成功透過 FMP 獲取 {stock_name} 財報！")
+        except Exception as e:
+            print(f"⚠️ FMP 抓取失敗，準備退回 Yahoo: {e}")
+            
+    # 🌟 台股或 FMP 失敗時，退回原本的 yfinance 備用路線
+    if pe == '未知' or pe == 0:
+        try:
+            info = yf.Ticker(symbol).info
+            pe = info.get('trailingPE', '未知')
+            pb = info.get('priceToBook', '未知')
+            roe_val = info.get('returnOnEquity', '未知')
+            roe = f"{round(roe_val * 100, 2)}%" if roe_val != '未知' else '未知'
+            rg_val = info.get('revenueGrowth', '未知')
+            rev_growth = f"{round(rg_val * 100, 2)}%" if rg_val != '未知' else '未知'
+            m_val = info.get('profitMargins', '未知')
+            margins = f"{round(m_val * 100, 2)}%" if m_val != '未知' else '未知'
+        except:
+            pass
 
-    system_prompt = "你是一位極度嚴格的華爾街分析師，為台灣老手「阿土伯」效力。看著基本面數據，用【一句話（嚴格限制 40 字以內）】挑出它最大的財務隱患或亮點。不講廢話。"
-    user_prompt = f"股票：{stock_name}\nP/E: {pe}\nP/B: {pb}\nROE: {roe}\n營收成長: {rev_growth}\n淨利率: {margins}"
+    if pe == '未知' and roe == '未知':
+        return "⚠️ 財報數據連線異常，請手動查閱公開資訊觀測站。"
+
+    # 💡 呼叫 Groq API (Llama) 進行解讀
+    groq_api_key = os.environ.get("GROQ_API_KEY")
+    if not groq_api_key:
+        return "⚠️ 未設定 GROQ_API_KEY，無法啟動財報掃雷。"
+
+    system_prompt = """
+    你是一位極度嚴格、挑剔的華爾街財報分析師，現在為台灣老手「阿土伯」效力。
+    你的任務是看著這家公司的「基本面數據」，用【一句話（嚴格限制 40 字以內）】挑出它最大的財務隱患或亮點。
+    請直接給出致命的點評，不要講廢話。
+    """
+    user_prompt = f"股票：{stock_name}\n本益比(P/E): {pe}\n股價淨值比(P/B): {pb}\n股東權益報酬率(ROE): {roe}\n近期營收成長率: {rev_growth}\n淨利率: {margins}"
 
     try:
-        headers = {"Authorization": f"Bearer {groq_api_key}", "Content-Type": "application/json"}
+        headers = {
+            "Authorization": f"Bearer {groq_api_key}", 
+            "Content-Type": "application/json"
+        }
         payload = {
-            "model": "llama-3.1-8b-instant", # 簡單任務用 8B 速度最快
-            "messages": [{"role": "system", "content": system_prompt}, {"role": "user", "content": user_prompt}],
+            "model": "llama-3.1-8b-instant",
+            "messages": [
+                {"role": "system", "content": system_prompt}, 
+                {"role": "user", "content": user_prompt}
+            ],
             "temperature": 0.2
         }
+        
         res = requests.post("https://api.groq.com/openai/v1/chat/completions", headers=headers, json=payload, timeout=30)
         res.raise_for_status()
+        
+        response_data = res.json()
+        
+        # 💡 阿土伯記帳法
         global TOTAL_TOKENS_USED
-        TOTAL_TOKENS_USED += res.json().get("usage", {}).get("total_tokens", 0)
-        return res.json()["choices"][0]["message"]["content"].strip()
+        TOTAL_TOKENS_USED += response_data.get("usage", {}).get("total_tokens", 0)
+
+        return response_data["choices"][0]["message"]["content"].strip()
+        
     except Exception as e:
+        print(f"⚠️ Groq 財報解讀中斷: {e}")
         return "🤖 AI 財報解讀中斷，請手動確認風險。"
 # 💡 阿土伯黑科技：計算近半年最大籌碼密集區 (POC)
 def calculate_poc(df, days=120, bins=20):

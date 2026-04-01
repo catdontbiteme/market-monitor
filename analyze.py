@@ -248,41 +248,39 @@ def get_sector_rotation():
 
 # 💡 注意參數多了一個 poc_price
 # 💡 參數新增了 smart_money
-def get_unified_o3_brain(stock_name, current_price, ma20, rsi, atr, poc_price, recent_df, rs_score, news_data, funda_insight, smart_money):
-    print(f"🧠 [o3-mini 大合體] 啟動全白話文戰情分析 (含POC籌碼視角)：{stock_name}...")
+def get_unified_groq_brain(stock_name, current_price, ma20, rsi, atr, poc_price, recent_df, rs_score, news_data, funda_insight, smart_money):
+    print(f"🧠 [Llama 大合體] 啟動全白話文戰情分析 (含POC籌碼視角)：{stock_name}...")
     
-    openai_api_key = os.environ.get("OPENAI_API_KEY")
-    if not openai_api_key:
+    groq_api_key = os.environ.get("GROQ_API_KEY")
+    if not groq_api_key:
         return {"pattern": "未連線", "bull": "API未設定", "bear": "API未設定", "trap": "無法掃描", "stop_price": 0, "sizing": "未知", "action": "無法判斷"}
 
     trend_str = "\n".join([f"{r.name.strftime('%m/%d')} - 收:{r['Close']:.2f} | 量:{int(r['Volume'])}" for _, r in recent_df.iterrows()])
     news_str = "\n".join([f"- [{n['sentiment']}] {n['title']}" for n in news_data]) if news_data else "無重大新聞"
-    
     ma_status = "【已站上 20MA，趨勢偏多】" if current_price > ma20 else "【已跌破 20MA，趨勢偏空】"
 
     system_prompt = """
     你現在是台灣股市老手「阿土伯」的首席量化風控長。你需要綜合【技術面】、【籌碼密集區(POC)】、【基本面】、【新聞】給出唯一裁決。
+    請嚴格以純 JSON 格式回傳，不要包含任何 Markdown 標記或其他文字。
     
     【極度重要：必須說白話文】
-    請用台灣股民最熟悉的「白話文」撰寫！
     - 不要說「MACD頂背離」，要說「漲不動了，動能衰退」。
     - 語氣要接地氣、直接、冷酷。
 
     【籌碼密集區 (POC) 判斷密技】：
     - POC 代表過去半年市場最大的「主力成本區」。
-    - 如果現價遠高於 POC：代表「主力已經拉開成本，獲利滿滿，隨時可能倒貨」。
+    - 如果現價遠高於 POC：代表「主力已經拉開成本，隨時可能倒貨」。
     - 如果現價剛好在 POC 附近：代表「有鐵板支撐，適合建倉防守」。
     - 如果現價跌破 POC：代表「連主力都被套牢，上方壓力極大，快逃」。
-    請務必將 POC 的觀察寫進你的 bull, bear 或 trap 分析中！
 
-    【輸出格式要求】：純 JSON 格式，嚴格遵守以下 Key 與字數：
+    【輸出格式要求】：純 JSON 格式，包含以下 Key：
     {
         "pattern": "目前的狀態 (例如: 強勢突破 / 跌破月線轉弱，限10字)",
         "bull": "多方好消息 (白話文，限25字)",
         "bear": "空方壞消息 (白話文，限25字)",
-        "trap": "騙線警告 (包含POC籌碼判斷，例如：現價乖離POC太遠，小心主力倒貨，限30字)",
+        "trap": "騙線警告 (包含POC籌碼判斷，限30字)",
         "stop_price": 數字 (用現價與 ATR 算出的合理防守價，精確到小數點後兩位),
-        "sizing": "資金建議 (例如: 波動大，買一半就好 / 安全，正常買，限20字)",
+        "sizing": "資金建議 (例如: 波動大，買一半就好，限20字)",
         "action": "最終指令 (限選一個：抱牢續賺 / 縮注試單 / 嚴格觀望 / 破線快逃)"
     }
     """
@@ -301,109 +299,101 @@ def get_unified_o3_brain(stock_name, current_price, ma20, rsi, atr, poc_price, r
     """
 
     try:
-        headers = {"Authorization": f"Bearer {openai_api_key}", "Content-Type": "application/json"}
+        headers = {"Authorization": f"Bearer {groq_api_key}", "Content-Type": "application/json"}
         payload = {
-            "model": "o3-mini",
+            "model": "llama-3.3-70b-versatile",
             "messages": [{"role": "system", "content": system_prompt}, {"role": "user", "content": user_prompt}],
+            "temperature": 0.2,
             "response_format": {"type": "json_object"}
         }
-        res = requests.post("https://api.openai.com/v1/chat/completions", headers=headers, json=payload, timeout=30)
+        res = requests.post("https://api.groq.com/openai/v1/chat/completions", headers=headers, json=payload, timeout=30)
         res.raise_for_status()
         
         response_data = res.json()
-        
-        # 💡 阿土伯記帳法：把這次消耗的 Token 抓出來加總
         global TOTAL_TOKENS_USED
-        usage = response_data.get("usage", {})
-        TOTAL_TOKENS_USED += usage.get("total_tokens", 0)
+        TOTAL_TOKENS_USED += response_data.get("usage", {}).get("total_tokens", 0)
 
         ai_text = response_data["choices"][0]["message"]["content"].strip()
         
-        start_idx, end_idx = ai_text.find('{'), ai_text.rfind('}')
-        if start_idx != -1 and end_idx != -1:
-            return json.loads(ai_text[start_idx:end_idx+1])
+        # 強制擷取 JSON
+        match = re.search(r'\{.*\}', ai_text, re.DOTALL)
+        if match:
+            return json.loads(match.group(0))
         else:
-            return {"pattern": "格式錯誤", "bull": "解析失敗", "bear": "解析失敗", "trap": "解析失敗", "stop_price": current_price*0.95, "sizing": "防禦狀態", "action": "觀望"}
+            return {"pattern": "格式錯誤", "bull": "解析失敗", "bear": "解析失敗", "trap": "解析失敗", "stop_price": round(current_price*0.95, 2), "sizing": "防禦狀態", "action": "觀望"}
     except Exception as e:
-        return {"pattern": "連線異常", "bull": "API中斷", "bear": "API中斷", "trap": "API中斷", "stop_price": current_price*0.95, "sizing": "防禦狀態", "action": "觀望"}
+        print(f"⚠️ Groq 連線異常: {e}")
+        return {"pattern": "連線異常", "bull": "API中斷", "bear": "API中斷", "trap": "API中斷", "stop_price": round(current_price*0.95, 2), "sizing": "防禦狀態", "action": "觀望"}
 
 # 💡 阿土伯晨間戰報升級：結構化 JSON 輸出
 # 💡 阿土伯晨間戰報升級：先過濾技術面，再給 AI 寫劇本
-def generate_morning_script_o3(market_data, sector_data, dashboard_data): # 👈 多加了 dashboard_data 參數
-    openai_api_key = os.environ.get("OPENAI_API_KEY")
-    if not openai_api_key:
+def generate_morning_script_groq(market_data, sector_data, dashboard_data):
+    groq_api_key = os.environ.get("GROQ_API_KEY")
+    if not groq_api_key:
         return {"sentiment": "未知", "title": "未設定 API 金鑰", "conclusion": "無法連線戰略大腦", "metrics": [], "sector_lights": []}
 
-    # 1. 整理大盤與板塊資料
     data_str = ", ".join([f"{k}: 收 {v['price']} (變化 {v['pct']}%)" for k, v in market_data.items() if isinstance(v, dict)])
     sector_str = ", ".join([f"{s['name']}(動能 {s['rs']}%)" for s in sector_data]) if sector_data else "無資料"
     
-    # 🛡️ 2. 阿土伯的嚴格守門員：過濾出「健康名單」
     healthy_stocks = []
     for d in dashboard_data:
         try:
-            # 確保有歷史資料
             if not d.get('history') or len(d['history']) == 0: continue
-            
             last_hist = d['history'][-1]
             ma20 = last_hist.get('ma20', 0)
             rsi = d.get('rsi', 50)
-            
-            # 條件：股價必須大於 20MA (順勢) 且 RSI 不能大於 70 (沒過熱)
             if d['price'] > ma20 and rsi < 70:
                 healthy_stocks.append(f"{d['name']}({d['symbol']})")
-        except:
-            continue
+        except: continue
             
-    # 把健康名單變成一段文字
     healthy_str = "、".join(healthy_stocks) if healthy_stocks else "目前全軍覆沒，無強勢標的"
 
     system_prompt = f"""
     你現在是台灣股市老手「阿土伯」，極度重視風險控制與資金輪動。
-    請根據提供的【昨夜美股/原油數據】與【板塊資金流向】，撰寫一份專業的晨間戰報。
+    請根據提供的資訊撰寫一份專業的晨間戰報。請嚴格以純 JSON 格式回傳。
     
     【🔥 極度重要指令：嚴格過濾名單】
-    阿土伯的量化系統已經幫你篩選出目前技術面健康的「強勢股池」：[{healthy_str}]。
-    當你判斷某個產業受惠，需要在戰報中點名具體股票時，【絕對只能從上述的「強勢股池」中挑選】！
-    如果受惠的產業在池子裡沒有健康的股票，請直接點評：「相關族群目前技術面破線轉弱，建議觀望不接刀」。
-    絕對不可以推薦不在強勢股池裡的股票！
+    阿土伯的強勢股池：[{healthy_str}]。
+    點評受惠產業時，【絕對只能從上述名單中挑選股票】！沒有就寫「建議觀望不接刀」。
 
-    【輸出格式】：嚴格輸出為純 JSON 格式。
+    【輸出格式】：純 JSON 格式。
     {{
-        "sentiment": "填入一個詞：偏多 / 中性 / 偏空 / 恐慌",
-        "title": "今日一句話懶人包 (例如：油價崩跌航運吃補，避開半導體回檔)",
+        "sentiment": "偏多 / 中性 / 偏空 / 恐慌",
+        "title": "今日一句話懶人包",
         "metrics": [
-            {{"label": "VIX 恐慌指數", "value": "提取數值", "status": "正常(綠)/警戒(黃)/危險(紅)"}},
-            {{"label": "紐約原油", "value": "提取漲跌幅", "status": "強勢(紅)/弱勢(綠)"}}
+            {{"label": "VIX 恐慌指數", "value": "數值", "status": "正常(綠)/警戒(黃)/危險(紅)"}}
         ],
         "sector_lights": [
             {{
                 "sector": "板塊名稱",
                 "color": "red / yellow / green",
-                "reason": "阿土伯點評，若有受惠產業，『必須』在這裡點出從強勢股池裡挑出的台股名單！(約30字)"
+                "reason": "阿土伯點評 (約30字)"
             }}
         ],
-        "conclusion": "昨日收盤總結與今日資金曝險建議，並重申今日該盯緊哪幾檔具體標的 (約80字)"
+        "conclusion": "昨日總結與今日建議 (約80字)"
     }}
     """
-    user_prompt = f"昨夜美股：{data_str}。\n資金流向：{sector_str}。\n請輸出阿土伯紅綠燈戰報 JSON！"
+    user_prompt = f"昨夜美股：{data_str}。\n資金流向：{sector_str}。\n請輸出戰報 JSON！"
 
     try:
-        print(f"🧠 呼叫 o3-mini 撰寫戰報 (已提供 {len(healthy_stocks)} 檔健康名單供其挑選)...")
-        headers = {"Authorization": f"Bearer {openai_api_key}", "Content-Type": "application/json"}
+        print(f"🧠 呼叫 Groq Llama 撰寫戰報...")
+        headers = {"Authorization": f"Bearer {groq_api_key}", "Content-Type": "application/json"}
         payload = {
-            "model": "o3-mini", 
+            "model": "llama-3.3-70b-versatile", 
             "messages": [{"role": "system", "content": system_prompt}, {"role": "user", "content": user_prompt}],
+            "temperature": 0.3,
             "response_format": {"type": "json_object"}
         }
-        res = requests.post("https://api.openai.com/v1/chat/completions", headers=headers, json=payload, timeout=40)
+        res = requests.post("https://api.groq.com/openai/v1/chat/completions", headers=headers, json=payload, timeout=40)
         res.raise_for_status()
         response_data = res.json()
         
         global TOTAL_TOKENS_USED
         TOTAL_TOKENS_USED += response_data.get("usage", {}).get("total_tokens", 0)
 
-        return json.loads(response_data["choices"][0]["message"]["content"].strip())
+        ai_text = response_data["choices"][0]["message"]["content"].strip()
+        match = re.search(r'\{.*\}', ai_text, re.DOTALL)
+        return json.loads(match.group(0)) if match else {"sentiment": "異常", "title": "AI 戰情室解析異常", "conclusion": "請縮小部位觀望。", "metrics": [], "sector_lights": []}
     except Exception as e:
         print(f"⚠️ 晨間戰報生成失敗: {e}")
         return {"sentiment": "異常", "title": "AI 戰情室連線異常", "conclusion": "請縮小部位觀望。", "metrics": [], "sector_lights": []}
@@ -536,64 +526,35 @@ def scan_bloodbath_survivors(vix_current, vix_threshold=40):
             
     return survivors
     # 💡 阿土伯黑科技 5：大屠殺抄底戰報 (交給 o3-mini 操刀)
-def generate_bloodbath_report_o3(survivors_list):
-    if not survivors_list:
-        return "✅ 目前市場無大級別恐慌，無需撰寫抄底報告。"
+def generate_bloodbath_report_groq(survivors_list):
+    if not survivors_list: return "✅ 目前市場無大級別恐慌，無需撰寫抄底報告。"
+    print("🧠 [Llama 戰略大腦] 正在為生還者名單撰寫『阿土伯抄底戰報』...")
+    
+    groq_api_key = os.environ.get("GROQ_API_KEY")
+    if not groq_api_key: return "⚠️ 未設定 GROQ_API_KEY，無法產生抄底報告。"
 
-    print("🧠 [o3-mini 戰略大腦] 正在為生還者名單撰寫『阿土伯抄底戰報』...")
-    openai_api_key = os.environ.get("OPENAI_API_KEY")
-    if not openai_api_key:
-        return "⚠️ 未設定 OPENAI_API_KEY，無法產生抄底報告。"
+    survivors_str = "".join([f"- {s['name']}({s['symbol']}): 現價 ${s['price']}, 淨值比 {s['pbr']}倍, 殖利率 {s['yield']}%, 月K值 {s['month_k']}\n" for s in survivors_list])
 
-    # 把生還者名單轉成白話文清單，餵給 AI
-    survivors_str = ""
-    for s in survivors_list:
-        survivors_str += f"- {s['name']}({s['symbol']}): 現價 ${s['price']}, 淨值比 {s['pbr']}倍, 殖利率 {s['yield']}%, 月K值 {s['month_k']}\n"
-
-    system_prompt = """
-    你現在是台灣股市傳奇老手「阿土伯」的首席戰略軍師。
-    市場目前正處於 VIX 飆高的恐慌大屠殺中，但我們的量化雷達已經掃描出幾檔符合「絕對價值（高息、低淨值比、月KD極度低檔）」的生還者名單。
-    請根據提供的名單，寫一篇【阿土伯極限抄底戰報】。
-
-    【嚴格規則與語氣要求】：
-    1. 語氣要老練、沉穩、帶點血腥味（例如：別人恐懼我貪婪、遍地黃金、接刀要有底氣）。
-    2. 絕對要死死盯住風險：這是「左側交易」，嚴厲警告操盤手絕對不能「歐印(All-in)」，必須遵守「資金分 3 到 5 批建倉、金字塔買法」的鐵律。因為「便宜還有更便宜」。
-    3. 針對名單上的股票，用一句話點出它們的防禦核心（例如：殖利率護城河、清算價值保護傘）。
-    4. 輸出格式：純文字搭配適合的 Emoji，排版要乾淨俐落，字數控制在 350 字以內，這是要直接發送到 Telegram 給第一線操盤手看的指令。
-    """
-
-    user_prompt = f"🚨 大屠殺生還者名單：\n{survivors_str}\n請軍師下達抄底戰略指示！"
+    system_prompt = """你現在是台灣股市傳奇老手「阿土伯」的首席戰略軍師。市場正處於恐慌，請寫一篇【阿土伯極限抄底戰報】。
+    1. 語氣老練、沉穩、帶點血腥味（別人恐懼我貪婪）。
+    2. 嚴厲警告操盤手必須遵守「資金分 3 到 5 批建倉」鐵律。
+    3. 點出名單防禦核心。控制在 350 字以內，純文字搭 Emoji。"""
 
     try:
-        headers = {
-            "Authorization": f"Bearer {openai_api_key}", 
-            "Content-Type": "application/json"
-        }
+        headers = {"Authorization": f"Bearer {groq_api_key}", "Content-Type": "application/json"}
         payload = {
-            "model": "o3-mini",
-            "messages": [
-                {"role": "system", "content": system_prompt},
-                {"role": "user", "content": user_prompt}
-            ]
-            # o3-mini 會自行推理，不需要設 temperature
+            "model": "llama-3.3-70b-versatile",
+            "messages": [{"role": "system", "content": system_prompt}, {"role": "user", "content": f"🚨 生還者名單：\n{survivors_str}\n請下達戰略指示！"}],
+            "temperature": 0.5
         }
-        
-        # 💡 o3-mini 思考需要一點時間，我們把 timeout 拉長到 60 秒確保不中斷
-        res = requests.post("https://api.openai.com/v1/chat/completions", headers=headers, json=payload, timeout=60)
+        res = requests.post("https://api.groq.com/openai/v1/chat/completions", headers=headers, json=payload, timeout=60)
         res.raise_for_status()
-
-        response_data = res.json()
-
-        # 💡 阿土伯記帳法：算一下這次寫報告花了多少 Token
         global TOTAL_TOKENS_USED
-        usage = response_data.get("usage", {})
-        TOTAL_TOKENS_USED += usage.get("total_tokens", 0)
-
-        return response_data["choices"][0]["message"]["content"].strip()
-
+        TOTAL_TOKENS_USED += res.json().get("usage", {}).get("total_tokens", 0)
+        return res.json()["choices"][0]["message"]["content"].strip()
     except Exception as e:
-        print(f"⚠️ o3-mini 抄底報告生成失敗: {e}")
-        return "🤖 AI 戰略室連線異常。阿土伯口頭交代：名單已出，殖利率護體，請嚴格執行分批買進，切勿單次重倉！"
+        print(f"⚠️ 抄底報告生成失敗: {e}")
+        return "🤖 AI 戰略室連線異常。阿土伯交代：殖利率護體，分批買進，切勿單次重倉！"
 # 💡 阿土伯黑科技 6：台股三大法人土洋對作雷達 (使用 FinMind 免費 API)
 def get_tw_institutional_flow(symbol):
     stock_id = symbol.split(".")[0]
@@ -716,114 +677,28 @@ def get_stock_kbars(symbol):
             return pd.DataFrame()
 # 💡 在你設定環境變數的地方加入 FMP_API_KEY
 # FMP_API_KEY = os.environ.get("FMP_API_KEY")
-def get_fundamental_risk_o3(symbol, stock_name):
-    print(f"🔎 [o3-mini 財報掃雷] 正在調閱 {stock_name} 的財務報表...")
-    # 阿土伯預設變數
-    pe = pb = roe = rev_growth = margins = '未知'
-    
-    fmp_key = os.environ.get("FMP_API_KEY")
-    
-    # 🌟 美股走專用高速公路 (FMP API)
-    if not symbol.endswith(".TW") and fmp_key:
-        try:
-            # 呼叫 FMP 的關鍵指標 API
-            metrics_url = f"https://financialmodelingprep.com/api/v3/key-metrics/{symbol}?apikey={fmp_key}"
-            res = requests.get(metrics_url, timeout=5).json()
-            if len(res) > 0:
-                pe = round(res[0].get('peRatio', 0), 2)
-                pb = round(res[0].get('pbRatio', 0), 2)
-                roe = f"{round(res[0].get('roe', 0) * 100, 2)}%"
-                
-            # 呼叫 FMP 的財務成長 API
-            growth_url = f"https://financialmodelingprep.com/api/v3/financial-growth/{symbol}?apikey={fmp_key}"
-            res_growth = requests.get(growth_url, timeout=5).json()
-            if len(res_growth) > 0:
-                rev_growth = f"{round(res_growth[0].get('revenueGrowth', 0) * 100, 2)}%"
-                
-            margins = "請參考ROE" # 簡化傳遞
-            print(f"✅ 成功透過 FMP 獲取 {stock_name} 財報！")
-        except Exception as e:
-            print(f"⚠️ FMP 抓取失敗，準備退回 Yahoo: {e}")
-            
-    # 🌟 台股或 FMP 失敗時，退回原本的 yfinance 備用路線
-    if pe == '未知' or pe == 0:
-        try:
-            info = yf.Ticker(symbol).info
-            pe = info.get('trailingPE', '未知')
-            pb = info.get('priceToBook', '未知')
-            roe_val = info.get('returnOnEquity', '未知')
-            roe = f"{round(roe_val * 100, 2)}%" if roe_val != '未知' else '未知'
-            rg_val = info.get('revenueGrowth', '未知')
-            rev_growth = f"{round(rg_val * 100, 2)}%" if rg_val != '未知' else '未知'
-            m_val = info.get('profitMargins', '未知')
-            margins = f"{round(m_val * 100, 2)}%" if m_val != '未知' else '未知'
-        except:
-            pass
+def get_fundamental_risk_groq(symbol, stock_name, pe, pb, roe, rev_growth, margins):
+    # 此處假設你已經在前置作業抓好了 pe, pb 等數值，直接呼叫 AI (省略前面抓資料的部分，直接看 AI 請求)
+    print(f"🔎 [Llama 財報掃雷] 正在調閱 {stock_name} 的財務報表...")
+    groq_api_key = os.environ.get("GROQ_API_KEY")
+    if not groq_api_key: return "⚠️ 未設定 GROQ_API_KEY，無法啟動財報掃雷。"
 
-    # ... 下面繼續接你原本呼叫 o3-mini 判讀財報的程式碼 ...
-    # (system_prompt, user_prompt, requests.post... 保留原樣)
-    try:
-        info = yf.Ticker(symbol).info
-        pe = info.get('trailingPE', '未知')
-        pb = info.get('priceToBook', '未知')
-        roe = info.get('returnOnEquity', '未知')
-        rev_growth = info.get('revenueGrowth', '未知')
-        margins = info.get('profitMargins', '未知')
-
-        if pe == '未知' and roe == '未知':
-            return "⚠️ 財報數據連線異常，請手動查閱公開資訊觀測站。"
-
-        if roe != '未知': roe = f"{round(roe * 100, 2)}%"
-        if rev_growth != '未知': rev_growth = f"{round(rev_growth * 100, 2)}%"
-        if margins != '未知': margins = f"{round(margins * 100, 2)}%"
-
-    except Exception as e:
-        print(f"⚠️ 抓取 {symbol} 財報失敗: {e}")
-        return "⚠️ 財報數據連線異常，無法進行基本面掃雷。"
-
-    # 💡 換上我們剛設定好的 OpenAI 金鑰
-    openai_api_key = os.environ.get("OPENAI_API_KEY")
-    if not openai_api_key:
-        return "⚠️ 未設定 OPENAI_API_KEY，無法啟動財報掃雷。"
-
-    system_prompt = """
-    你是一位極度嚴格、挑剔的華爾街財報分析師，現在為台灣老手「阿土伯」效力。
-    你的任務是看著這家公司的「基本面數據」，用【一句話（嚴格限制 40 字以內）】挑出它最大的財務隱患或亮點。
-    請直接給出致命的點評，不要講廢話。
-    """
-    user_prompt = f"股票：{stock_name}\n本益比(P/E): {pe}\n股價淨值比(P/B): {pb}\n股東權益報酬率(ROE): {roe}\n近期營收成長率: {rev_growth}\n淨利率: {margins}"
+    system_prompt = "你是一位極度嚴格的華爾街分析師，為台灣老手「阿土伯」效力。看著基本面數據，用【一句話（嚴格限制 40 字以內）】挑出它最大的財務隱患或亮點。不講廢話。"
+    user_prompt = f"股票：{stock_name}\nP/E: {pe}\nP/B: {pb}\nROE: {roe}\n營收成長: {rev_growth}\n淨利率: {margins}"
 
     try:
-        headers = {
-            "Authorization": f"Bearer {openai_api_key}", 
-            "Content-Type": "application/json"
-        }
+        headers = {"Authorization": f"Bearer {groq_api_key}", "Content-Type": "application/json"}
         payload = {
-            "model": "o3-mini",
-            "messages": [
-                {"role": "system", "content": system_prompt}, 
-                {"role": "user", "content": user_prompt}
-            ]
-            # 💡 o3-mini 同樣不需要設定 temperature
+            "model": "llama-3.1-8b-instant", # 簡單任務用 8B 速度最快
+            "messages": [{"role": "system", "content": system_prompt}, {"role": "user", "content": user_prompt}],
+            "temperature": 0.2
         }
-        
-        # 思考財報需要一點時間，timeout 設 20 秒
-        res = requests.post("https://api.openai.com/v1/chat/completions", headers=headers, json=payload, timeout=30)
+        res = requests.post("https://api.groq.com/openai/v1/chat/completions", headers=headers, json=payload, timeout=30)
         res.raise_for_status()
-        
-        response_data = res.json()
-        
-        # 💡 阿土伯記帳法：把這次消耗的 Token 抓出來加總
         global TOTAL_TOKENS_USED
-        usage = response_data.get("usage", {})
-        TOTAL_TOKENS_USED += usage.get("total_tokens", 0)
-
-        ai_text = response_data["choices"][0]["message"]["content"].strip()
-        
+        TOTAL_TOKENS_USED += res.json().get("usage", {}).get("total_tokens", 0)
         return res.json()["choices"][0]["message"]["content"].strip()
-        
     except Exception as e:
-        print(f"⚠️ o3-mini 財報解讀中斷: {e}")
         return "🤖 AI 財報解讀中斷，請手動確認風險。"
 # 💡 阿土伯黑科技：計算近半年最大籌碼密集區 (POC)
 def calculate_poc(df, days=120, bins=20):
@@ -1033,7 +908,7 @@ for symbol, info in STOCKS.items():
         news_sentiment_data = get_ai_news_sentiment(symbol, info["name"])
         time.sleep(2) 
 
-        funda_insight = get_fundamental_risk_o3(symbol, info["name"])
+        funda_insight = get_fundamental_risk_groq(symbol, info["name"])
         time.sleep(2) 
         
         if symbol.endswith(".TW") or symbol.endswith(".TWO"):
@@ -1045,7 +920,7 @@ for symbol, info in STOCKS.items():
         recent_5d = df.tail(5)
         poc_price = calculate_poc(df, days=120, bins=20)
         
-        unified_brain = get_unified_o3_brain(
+        unified_brain = get_unified_groq_brain(
             stock_name=info["name"],
             current_price=current_price,
             ma20=round(df['ma20'].iloc[-1], 2),
@@ -1104,14 +979,14 @@ survivors_list = scan_bloodbath_survivors(current_vix, vix_threshold=40)
     
 if survivors_list:
 # 🚀 2. 把名單丟給 o3-mini 寫戰報
-    bloodbath_report = generate_bloodbath_report_o3(survivors_list)
+    bloodbath_report = generate_bloodbath_report_groq(survivors_list)
         
 # 🚀 3. 直接推送到你的 Telegram 手機裡
     send_telegram_alert(f"🚨【阿土伯血拚警報啟動】🚨\n\n{bloodbath_report}")
 # 💡 1. 呼叫雷達
 sector_data = get_sector_rotation()
 # 把我們算好的一大包 dashboard_data 傳給 AI 當作選股池
-morning_script = generate_morning_script_o3(us_market_data, sector_data, dashboard_data)
+morning_script = generate_morning_script_groq(us_market_data, sector_data, dashboard_data)
 
 above_20ma_count = sum(1 for d in dashboard_data if d['price'] > d['history'][-1]['ma20'])
 health_pct = int((above_20ma_count / len(dashboard_data)) * 100) if dashboard_data else 50

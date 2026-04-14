@@ -99,6 +99,79 @@ def check_market_regime():
     if triggered: send_telegram_alert(alert_msg)
     return regime
 
+def detect_divergences(df, lookback=14):
+    """偵測 RSI 與 MACD 背離訊號（頂背離/底背離）"""
+    try:
+        close = df['Close'].values
+        rsi = df['rsi'].values
+        macd_hist = df['macd_hist'].values
+        n = len(close)
+        if n < lookback + 5:
+            return "無背離訊號"
+
+        # 取最近 lookback 根 K 線
+        recent_close = close[-(lookback):]
+        recent_rsi = rsi[-(lookback):]
+        recent_macd = macd_hist[-(lookback):]
+
+        # 找到近期股價的高低點位置
+        price_high_idx = int(np.argmax(recent_close))
+        price_low_idx  = int(np.argmin(recent_close))
+        prev_high_idx  = int(np.argmax(recent_close[:price_high_idx])) if price_high_idx > 0 else 0
+        prev_low_idx   = int(np.argmin(recent_close[:price_low_idx]))  if price_low_idx  > 0 else 0
+
+        signals = []
+
+        # 頂背離：股價創新高，但 RSI 沒創新高
+        if price_high_idx > prev_high_idx and price_high_idx > lookback // 2:
+            if recent_close[price_high_idx] > recent_close[prev_high_idx]:
+                if recent_rsi[price_high_idx] < recent_rsi[prev_high_idx]:
+                    signals.append("⚠️ RSI頂背離(漲不動警訊)")
+                if recent_macd[price_high_idx] < recent_macd[prev_high_idx]:
+                    signals.append("⚠️ MACD頂背離(動能衰退)")
+
+        # 底背離：股價創新低，但 RSI 沒創新低
+        if price_low_idx > prev_low_idx and price_low_idx > lookback // 2:
+            if recent_close[price_low_idx] < recent_close[prev_low_idx]:
+                if recent_rsi[price_low_idx] > recent_rsi[prev_low_idx]:
+                    signals.append("⚡ RSI底背離(止跌反彈訊號)")
+                if recent_macd[price_low_idx] > recent_macd[prev_low_idx]:
+                    signals.append("⚡ MACD底背離(動能蓄積)")
+
+        return "、".join(signals) if signals else "無明顯背離"
+    except Exception as e:
+        return "背離偵測異常"
+
+def calculate_fibonacci(df, days=60):
+    """計算近 N 日費波那契回撤關鍵價位"""
+    try:
+        recent = df.tail(days)
+        high = float(recent['High'].max())
+        low  = float(recent['Low'].min())
+        diff = high - low
+        return {
+            "high":   round(high, 2),
+            "low":    round(low, 2),
+            "fib382": round(high - diff * 0.382, 2),
+            "fib500": round(high - diff * 0.500, 2),
+            "fib618": round(high - diff * 0.618, 2),
+        }
+    except:
+        return {}
+
+def get_volume_trend(df):
+    """判斷近5日量價配合狀況"""
+    try:
+        recent = df.tail(5)
+        price_up   = recent['Close'].iloc[-1] > recent['Close'].iloc[0]
+        vol_up     = recent['Volume'].iloc[-1] > recent['Volume'].mean()
+        if price_up and vol_up:   return "放量上漲(強勢確認)"
+        if price_up and not vol_up: return "縮量上漲(動能不足)"
+        if not price_up and vol_up: return "放量下跌(主力出貨警訊)"
+        return "縮量下跌(無量陰跌)"
+    except:
+        return "無法判斷"
+
 STOCKS = {
     "NVDA": {"name": "Nvidia", "category": "美國科技"}, "TSLA": {"name": "Tesla", "category": "美國科技"}, "SPY": {"name": "S&P 500", "category": "美股大盤"},
     "2330.TW": {"name": "台積電", "category": "晶圓代工"}, "2337.TW": {"name": "旺宏", "category": "記憶體"},"3105.TWO": {"name": "穩懋", "category": "半導體"},
@@ -161,7 +234,7 @@ def get_ai_news_sentiment(stock_name, symbol):
 
         headers = {"Authorization": f"Bearer {groq_api_key}", "Content-Type": "application/json"}
         payload = {
-            "model": "llama-3.1-8b-instant",
+            "model": "llama-3.3-70b-versatile",
             "messages": [{"role": "system", "content": system_prompt}, {"role": "user", "content": user_prompt}],
             "temperature": 0.3,
             "max_tokens": 800
@@ -248,12 +321,12 @@ def get_sector_rotation():
 
 # 💡 注意參數多了一個 poc_price
 # 💡 參數新增了 smart_money
-def get_unified_groq_brain(stock_name, current_price, ma20, rsi, atr, poc_price, recent_df, rs_score, news_data, funda_insight, smart_money):
+def get_unified_groq_brain(stock_name, current_price, ma20, rsi, atr, poc_price, recent_df, rs_score, news_data, funda_insight, smart_money, divergence_signal="無背離", fib_levels=None, volume_trend="未知", weekly_trend="未知"):
     print(f"🧠 [Llama 大合體] 啟動全白話文戰情分析 (含POC籌碼視角)：{stock_name}...")
     
     groq_api_key = os.environ.get("GROQ_API_KEY")
     if not groq_api_key:
-        return {"pattern": "未連線", "bull": "API未設定", "bear": "API未設定", "trap": "無法掃描", "stop_price": 0, "sizing": "未知", "action": "無法判斷"}
+        return {"pattern": "未連線", "bull": "API未設定", "bear": "API未設定", "trap": "無法掃描", "stop_price": 0, "sizing": "未知", "action": "無法判斷", "confidence": 0, "entry_zone": "未知", "target_1": 0, "target_2": 0}
 
     trend_str = "\n".join([f"{r.name.strftime('%m/%d')} - 收:{r['Close']:.2f} | 量:{int(r['Volume'])}" for _, r in recent_df.iterrows()])
     news_str = "\n".join([f"- [{n['sentiment']}] {n['title']}" for n in news_data]) if news_data else "無重大新聞"
@@ -273,6 +346,15 @@ def get_unified_groq_brain(stock_name, current_price, ma20, rsi, atr, poc_price,
     - 如果現價剛好在 POC 附近：代表「有鐵板支撐，適合建倉防守」。
     - 如果現價跌破 POC：代表「連主力都被套牢，上方壓力極大，快逃」。
 
+    【背離訊號解讀】：
+    - RSI/MACD 底背離 (⚡)：可能止跌反彈，可考慮小倉試單。
+    - RSI/MACD 頂背離 (⚠️)：動能衰退，注意可能回檔，縮注或等回測。
+    - 無背離：按一般趨勢研判即可。
+
+    【費波那契支撐/壓力】：
+    - 0.382 與 0.618 是最強支撐/壓力位。
+    - 跌到費波支撐時可考慮試單；漲到費波壓力時注意減倉。
+
     【輸出格式要求】：純 JSON 格式，包含以下 Key：
     {
         "pattern": "目前的狀態 (例如: 強勢突破 / 跌破月線轉弱，限10字)",
@@ -281,17 +363,29 @@ def get_unified_groq_brain(stock_name, current_price, ma20, rsi, atr, poc_price,
         "trap": "騙線警告 (包含POC籌碼判斷，限30字)",
         "stop_price": 數字 (用現價與 ATR 算出的合理防守價，精確到小數點後兩位),
         "sizing": "資金建議 (例如: 波動大，買一半就好，限20字)",
-        "action": "最終指令 (限選一個：抱牢續賺 / 縮注試單 / 嚴格觀望 / 破線快逃)"
+        "action": "最終指令 (限選一個：抱牢續賺 / 縮注試單 / 嚴格觀望 / 破線快逃)",
+        "confidence": 整數 0-100 (對此次研判的信心度，綜合所有訊號後給出),
+        "entry_zone": "建議進場區間 (例如: 575-590，若不建議進場則寫 觀望)",
+        "target_1": 數字 (短線目標價，精確到小數點後兩位),
+        "target_2": 數字 (中線目標價，精確到小數點後兩位)
     }
     """
+
+    fib_str = ""
+    if fib_levels:
+        fib_str = f"費波那契(近60日 高:{fib_levels.get('high')} 低:{fib_levels.get('low')}): 0.382={fib_levels.get('fib382')} / 0.5={fib_levels.get('fib500')} / 0.618={fib_levels.get('fib618')}"
 
     user_prompt = f"""
     股票：{stock_name}
     大盤強弱：相對大盤 {rs_score}%
+    週線趨勢：{weekly_trend}
     事實：{ma_status}
     現價：{current_price}
-    近半年籌碼密集區(POC)：{poc_price} 
+    近半年籌碼密集區(POC)：{poc_price}
     均線與波動：20MA {ma20}，RSI {rsi}，ATR {atr}
+    背離訊號：{divergence_signal}
+    量價配合：{volume_trend}
+    {fib_str}
     近5日量價：\n{trend_str}
     財報：{funda_insight}
     大戶與內部人動向：{smart_money}
@@ -320,10 +414,10 @@ def get_unified_groq_brain(stock_name, current_price, ma20, rsi, atr, poc_price,
         if match:
             return json.loads(match.group(0))
         else:
-            return {"pattern": "格式錯誤", "bull": "解析失敗", "bear": "解析失敗", "trap": "解析失敗", "stop_price": round(current_price*0.95, 2), "sizing": "防禦狀態", "action": "觀望"}
+            return {"pattern": "格式錯誤", "bull": "解析失敗", "bear": "解析失敗", "trap": "解析失敗", "stop_price": round(current_price*0.95, 2), "sizing": "防禦狀態", "action": "觀望", "confidence": 0, "entry_zone": "觀望", "target_1": 0, "target_2": 0}
     except Exception as e:
         print(f"⚠️ Groq 連線異常: {e}")
-        return {"pattern": "連線異常", "bull": "API中斷", "bear": "API中斷", "trap": "API中斷", "stop_price": round(current_price*0.95, 2), "sizing": "防禦狀態", "action": "觀望"}
+        return {"pattern": "連線異常", "bull": "API中斷", "bear": "API中斷", "trap": "API中斷", "stop_price": round(current_price*0.95, 2), "sizing": "防禦狀態", "action": "觀望", "confidence": 0, "entry_zone": "觀望", "target_1": 0, "target_2": 0}
 
 # 💡 阿土伯晨間戰報升級：結構化 JSON 輸出
 # 💡 阿土伯晨間戰報升級：先過濾技術面，再給 AI 寫劇本
@@ -981,7 +1075,32 @@ for symbol, info in STOCKS.items():
 
         recent_5d = df.tail(5)
         poc_price = calculate_poc(df, days=120, bins=20)
-        
+
+        # 🆕 背離偵測
+        divergence_signal = detect_divergences(df)
+
+        # 🆕 費波那契關鍵價位
+        fib_levels = calculate_fibonacci(df, days=60)
+
+        # 🆕 量能趨勢
+        volume_trend = get_volume_trend(df)
+
+        # 🆕 週線趨勢過濾：抓週線20MA判斷多空
+        try:
+            weekly_symbol = symbol
+            df_weekly = yf.download(weekly_symbol, period="2y", interval="1wk", progress=False)
+            if isinstance(df_weekly.columns, pd.MultiIndex):
+                df_weekly.columns = df_weekly.columns.droplevel(1)
+            if len(df_weekly) >= 20:
+                df_weekly['wma20'] = df_weekly['Close'].rolling(20).mean()
+                weekly_close = float(df_weekly['Close'].iloc[-1])
+                weekly_ma20  = float(df_weekly['wma20'].iloc[-1])
+                weekly_trend = "週線多頭(站上20週MA)" if weekly_close > weekly_ma20 else "週線空頭(跌破20週MA)"
+            else:
+                weekly_trend = "週線資料不足"
+        except Exception as e:
+            weekly_trend = "週線抓取異常"
+
         unified_brain = get_unified_groq_brain(
             stock_name=info["name"],
             current_price=current_price,
@@ -993,7 +1112,11 @@ for symbol, info in STOCKS.items():
             rs_score=rs_score,
             news_data=news_sentiment_data,
             funda_insight=funda_insight,
-            smart_money=smart_money_insight
+            smart_money=smart_money_insight,
+            divergence_signal=divergence_signal,
+            fib_levels=fib_levels,
+            volume_trend=volume_trend,
+            weekly_trend=weekly_trend
         )
         
         dynamic_stop_price = unified_brain.get('stop_price', current_price * 0.95)
@@ -1005,23 +1128,27 @@ for symbol, info in STOCKS.items():
         real_vol_ratio = round(float(current_vol / avg_vol_20), 2) if avg_vol_20 > 0 else 1.0
         event_warning = ""  # (如果你之前有專門寫抓財報日的函數，可以改成 event_warning = get_upcoming_events(symbol) ，沒有的話寫 "" 就可以過關了！)
         dashboard_data.append({
-            "symbol": symbol, 
-            "name": info["name"], 
+            "symbol": symbol,
+            "name": info["name"],
             "category": info["category"],
-            "price": current_price, 
+            "price": current_price,
             "history": hist,
             "vol_ratio": real_vol_ratio,
-            "smart_money": smart_money_insight, 
+            "smart_money": smart_money_insight,
             "poc_price": poc_price,
             "actual_sl": actual_sl,
-            "rsi": round(df['rsi'].iloc[-1], 2), 
+            "rsi": round(df['rsi'].iloc[-1], 2),
             "rs_score": rs_score,
-            "unified_brain": unified_brain,  
-            "funda_summary": funda_insight, 
-            "best_ma_name": best_ma_name,        
+            "unified_brain": unified_brain,
+            "funda_summary": funda_insight,
+            "best_ma_name": best_ma_name,
             "best_ma_price": best_ma_price,
             "event_warning": event_warning,
-            "lights": {"short": "⚪", "mid": "⚪", "long": "⚪"}
+            "lights": {"short": "⚪", "mid": "⚪", "long": "⚪"},
+            "divergence_signal": divergence_signal,
+            "fib_levels": fib_levels,
+            "volume_trend": volume_trend,
+            "weekly_trend": weekly_trend
         })
 
     except Exception as e:

@@ -752,7 +752,8 @@
                     }
                 }
 
-                let isPerfectEntry = (stock.vol_ratio >= 2.5) && isBullish && (stock.rsi >= 55 && stock.rsi <= 65) && (stock.rs_score > 0);
+                let isWeeklyBullish = !stock.weekly_trend || stock.weekly_trend.includes('多頭');
+                let isPerfectEntry = (stock.vol_ratio >= 2.5) && isBullish && (stock.rsi >= 55 && stock.rsi <= 65) && (stock.rs_score > 0) && isWeeklyBullish;
                 let cardBaseClass = "p-6 rounded-[2rem] border-2 cursor-pointer transition-all transform hover:-translate-y-1 flex flex-col justify-between relative group";
                 card.className = isPerfectEntry ? `${cardBaseClass} border-yellow-400 bg-gradient-to-br from-yellow-900/40 to-slate-900 shadow-[0_0_30px_rgba(250,204,21,0.5)] ring-1 ring-yellow-400` : `${cardBaseClass} border-slate-700 bg-slate-800/50`;
                 let perfectBanner = isPerfectEntry ? `<div class="absolute -top-4 -right-2 z-50 animate-bounce"><div class="bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500 text-black px-4 py-1.5 rounded-full font-black shadow-[0_0_20px_rgba(249,115,22,0.8)] border-2 border-white flex items-center gap-1.5"><span class="text-xl">🎯</span> 絕佳進場訊號</div></div>` : '';
@@ -760,10 +761,44 @@
                 // 💡 新增：財報避雷針標籤 (正確字串插值寫法)
                 let eventBanner = stock.event_warning ? `<div class="absolute -top-4 left-4 z-50 animate-pulse"><div class="bg-gradient-to-r from-purple-700 to-pink-600 text-white px-3 py-1.5 rounded-full font-black shadow-[0_0_15px_rgba(219,39,119,0.8)] border-2 border-purple-300 flex items-center gap-1"><span class="text-lg">📅</span> ${stock.event_warning} (減碼避險)</div></div>` : '';
 
+                // 🆕 背離訊號標籤
+                let divergenceHtml = '';
+                if (stock.divergence_signal && stock.divergence_signal !== '無明顯背離' && stock.divergence_signal !== '無背離訊號' && stock.divergence_signal !== '背離偵測異常') {
+                    let isBull = stock.divergence_signal.includes('⚡');
+                    divergenceHtml = `<div class="flex items-center gap-2 px-4 py-2.5 rounded-xl border mt-3 shadow-inner ${isBull ? 'bg-blue-900/30 border-blue-500/50' : 'bg-orange-900/30 border-orange-500/50'}"><span class="text-lg">${isBull ? '⚡' : '⚠️'}</span><div><p class="text-[10px] font-black ${isBull ? 'text-blue-300' : 'text-orange-300'} tracking-widest mb-0.5">反轉預警訊號</p><p class="text-sm font-black ${isBull ? 'text-blue-200' : 'text-orange-200'}">${stock.divergence_signal}</p></div></div>`;
+                }
+
+                // 🆕 週線趨勢標籤
+                let weeklyBadge = '';
+                if (stock.weekly_trend) {
+                    let isWeeklyBull = stock.weekly_trend.includes('多頭');
+                    weeklyBadge = `<span class="px-2 py-0.5 rounded-full text-[10px] font-black border ${isWeeklyBull ? 'bg-emerald-900/40 text-emerald-300 border-emerald-500/50' : 'bg-rose-900/40 text-rose-300 border-rose-500/50'}">${stock.weekly_trend}</span>`;
+                }
+
                 let aiBrainHtml = `<div class="bg-slate-800 border border-slate-700 rounded-xl p-5 text-center text-slate-500 font-bold mt-3">⏳ 正在等待 Llama 戰情分析...</div>`;
                 if (stock.unified_brain) {
                     let actionBadge = `<span class="px-3 py-1 rounded-lg text-sm font-black border ${getCroBadgeStyle(stock.unified_brain.action)}">${stock.unified_brain.action || '無指令'}</span>`;
                     let defenseReferenceHtml = myPortfolio[stock.symbol] ? '' : `<div class="flex items-center justify-between bg-red-900/20 px-4 py-3 rounded-xl border border-red-500/20 mt-1 shadow-inner"><span class="text-xs text-slate-400 font-bold">🛡️ 建倉防守參考價</span><p class="text-xl font-mono font-black text-red-400">$${Number(stock.unified_brain.stop_price).toFixed(2)}</p></div>`;
+
+                    // 🆕 信心度進度條
+                    let confidence = stock.unified_brain.confidence || 0;
+                    let confColor = confidence >= 70 ? 'bg-green-500' : (confidence >= 40 ? 'bg-yellow-500' : 'bg-red-500');
+                    let confidenceHtml = `<div class="mt-1"><div class="flex justify-between items-center mb-1"><span class="text-xs text-slate-400 font-bold">💪 AI 研判信心度</span><span class="text-sm font-mono font-black ${confidence >= 70 ? 'text-green-400' : (confidence >= 40 ? 'text-yellow-400' : 'text-red-400')}">${confidence}%</span></div><div class="w-full bg-black/50 h-2 rounded-full overflow-hidden border border-black/50"><div class="${confColor} h-full transition-all duration-700 shadow-[0_0_8px_rgba(34,197,94,0.5)]" style="width:${confidence}%"></div></div></div>`;
+
+                    // 🆕 目標價與進場區間
+                    let target1 = stock.unified_brain.target_1;
+                    let target2 = stock.unified_brain.target_2;
+                    let entryZone = stock.unified_brain.entry_zone;
+                    let targetsHtml = '';
+                    if (target1 || entryZone) {
+                        targetsHtml = `
+                        <div class="grid grid-cols-3 gap-2 mt-2">
+                            <div class="bg-blue-900/20 p-2 rounded-lg border border-blue-500/20 text-center"><p class="text-[10px] text-blue-400 font-bold mb-0.5">📍 進場區</p><p class="text-xs font-mono font-black text-blue-300">${entryZone || '–'}</p></div>
+                            <div class="bg-green-900/20 p-2 rounded-lg border border-green-500/20 text-center"><p class="text-[10px] text-green-400 font-bold mb-0.5">🎯 短線目標</p><p class="text-xs font-mono font-black text-green-300">${target1 ? '$' + Number(target1).toFixed(2) : '–'}</p></div>
+                            <div class="bg-purple-900/20 p-2 rounded-lg border border-purple-500/20 text-center"><p class="text-[10px] text-purple-400 font-bold mb-0.5">🚀 中線目標</p><p class="text-xs font-mono font-black text-purple-300">${target2 ? '$' + Number(target2).toFixed(2) : '–'}</p></div>
+                        </div>`;
+                    }
+
                     aiBrainHtml = `
                         <div class="bg-[#151a23] border border-indigo-500/50 rounded-2xl p-5 shadow-2xl hover:border-indigo-400 transition-colors relative overflow-hidden">
                             <div class="absolute top-0 right-0 w-32 h-32 bg-indigo-500/10 rounded-full blur-3xl"></div>
@@ -780,6 +815,8 @@
                                     <div class="flex items-start gap-3"><span class="text-yellow-500 text-xl shrink-0 mt-0.5">⚠️</span><div><p class="text-xs text-slate-500 font-bold mb-1">主力騙線掃描</p><p class="text-sm font-black text-yellow-400 leading-relaxed">${stock.unified_brain.trap}</p></div></div>
                                     <div class="flex items-start gap-3"><span class="text-blue-400 text-xl shrink-0 mt-0.5">💰</span><div><p class="text-xs text-slate-500 font-bold mb-1">資金控管建議</p><p class="text-sm font-bold text-blue-300 leading-relaxed">${stock.unified_brain.sizing}</p></div></div>
                                     ${defenseReferenceHtml}
+                                    ${confidenceHtml}
+                                    ${targetsHtml}
                                 </div>
                             </div>
                         </div>`;
@@ -812,11 +849,14 @@
                                 <div class="text-center px-1"><p class="text-xs lg:text-sm text-slate-500 font-bold mb-1">60MA</p><p class="text-base lg:text-xl font-mono font-black ${stock.price > ma60 ? 'text-red-400' : 'text-green-400'}">${ma60}</p></div>
                                 <div class="text-center px-1 relative bg-purple-900/30 rounded-lg -my-2 py-2 border border-purple-500/40 shadow-[0_0_15px_rgba(168,85,247,0.3)]"><div class="absolute -top-3 left-1/2 transform -translate-x-1/2 text-sm lg:text-base animate-bounce drop-shadow-[0_0_5px_rgba(168,85,247,0.8)]">👑</div><p class="text-[10px] lg:text-xs text-purple-300 font-black mb-1 tracking-wider">主力POC</p><p class="text-base lg:text-xl font-mono font-black ${stock.price > stock.poc_price ? 'text-red-400' : 'text-green-400'}">${stock.poc_price || '計算中'}</p></div>
                             </div>
-                            <div class="bg-blue-900/30 p-3 rounded-xl border border-blue-500/30 mb-4 mt-2 shadow-inner">
+                            <div class="bg-blue-900/30 p-3 rounded-xl border border-blue-500/30 mb-3 mt-2 shadow-inner">
                                 <div class="flex justify-between items-end mb-2"><p class="text-sm font-black ${stock.vol_ratio > 1.5 ? 'text-red-400' : 'text-blue-300'}">${stock.vol_ratio > 1.5 ? '🔥 大戶進場表態' : '💤 散戶量縮盤整'}</p><p class="text-sm font-mono font-black text-blue-200">量能 ${stock.vol_ratio}x</p></div>
                                 <div class="w-full bg-black/50 h-2 rounded-full overflow-hidden border border-black/50"><div class="${stock.vol_ratio > 1.5 ? 'bg-red-500 shadow-[0_0_10px_rgba(239,68,68,0.8)]' : 'bg-blue-500'} h-full transition-all duration-500" style="width: ${Math.min(stock.vol_ratio * 30, 100)}%"></div></div>
+                                ${stock.volume_trend ? `<p class="text-xs text-slate-400 font-bold mt-2">📊 量價：${stock.volume_trend}</p>` : ''}
+                                ${weeklyBadge ? `<div class="mt-1.5">${weeklyBadge}</div>` : ''}
                             </div>
-                            <div class="flex items-start gap-3 p-3 rounded-xl border ${smartMoneyTheme} mb-4 shadow-inner"><span class="text-xl shrink-0 mt-0.5">${smartMoneyIcon}</span><div><p class="text-[10px] font-black opacity-70 mb-0.5 tracking-wider">大戶與內部人動向</p><p class="text-sm font-bold leading-tight">${smartMoneyText}</p></div></div>
+                            ${divergenceHtml}
+                            <div class="flex items-start gap-3 p-3 rounded-xl border ${smartMoneyTheme} mb-4 mt-3 shadow-inner"><span class="text-xl shrink-0 mt-0.5">${smartMoneyIcon}</span><div><p class="text-[10px] font-black opacity-70 mb-0.5 tracking-wider">大戶與內部人動向</p><p class="text-sm font-bold leading-tight">${smartMoneyText}</p></div></div>
                             ${positionHtml}
                             <div class="pt-4 border-t border-slate-700/50 mt-4">${aiBrainHtml}</div>
                         </div>

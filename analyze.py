@@ -326,7 +326,7 @@ def get_unified_groq_brain(stock_name, current_price, ma20, rsi, atr, poc_price,
     
     groq_api_key = os.environ.get("GROQ_API_KEY")
     if not groq_api_key:
-        return {"pattern": "未連線", "bull": "API未設定", "bear": "API未設定", "trap": "無法掃描", "stop_price": 0, "sizing": "未知", "action": "無法判斷", "confidence": 0, "entry_zone": "未知", "target_1": 0, "target_2": 0}
+        return {"pattern": "未連線", "bull": "API未設定", "bear": "API未設定", "trap": "無法掃描", "stop_price": 0, "sizing": "未知", "action": "無法判斷", "confidence": 0, "entry_zone": "未知", "target_1": 0, "target_2": 0, "tech_score": 0, "chip_score": 0, "news_score": 0}
 
     trend_str = "\n".join([f"{r.name.strftime('%m/%d')} - 收:{r['Close']:.2f} | 量:{int(r['Volume'])}" for _, r in recent_df.iterrows()])
     news_str = "\n".join([f"- [{n['sentiment']}] {n['title']}" for n in news_data]) if news_data else "無重大新聞"
@@ -367,7 +367,10 @@ def get_unified_groq_brain(stock_name, current_price, ma20, rsi, atr, poc_price,
         "confidence": 整數 0-100 (對此次研判的信心度，綜合所有訊號後給出),
         "entry_zone": "建議進場區間 (例如: 575-590，若不建議進場則寫 觀望)",
         "target_1": 數字 (短線目標價，精確到小數點後兩位),
-        "target_2": 數字 (中線目標價，精確到小數點後兩位)
+        "target_2": 數字 (中線目標價，精確到小數點後兩位),
+        "tech_score": 整數 0-100 (技術面綜合評分：RSI在50-65健康區間+20、MA多頭排列+30、底背離確認+25、放量上漲+25；空方各項對應扣分),
+        "chip_score": 整數 0-100 (籌碼面綜合評分：POC在現價下方有效支撐+40、三大法人近5日買超+30、智能資金同步追買+30；空方各項對應扣分),
+        "news_score": 整數 0-100 (消息面綜合評分：近期新聞整體正向+50、基本面財報優良成長+50；利空消息對應扣分)
     }
     """
 
@@ -414,10 +417,10 @@ def get_unified_groq_brain(stock_name, current_price, ma20, rsi, atr, poc_price,
         if match:
             return json.loads(match.group(0))
         else:
-            return {"pattern": "格式錯誤", "bull": "解析失敗", "bear": "解析失敗", "trap": "解析失敗", "stop_price": round(current_price*0.95, 2), "sizing": "防禦狀態", "action": "觀望", "confidence": 0, "entry_zone": "觀望", "target_1": 0, "target_2": 0}
+            return {"pattern": "格式錯誤", "bull": "解析失敗", "bear": "解析失敗", "trap": "解析失敗", "stop_price": round(current_price*0.95, 2), "sizing": "防禦狀態", "action": "觀望", "confidence": 0, "entry_zone": "觀望", "target_1": 0, "target_2": 0, "tech_score": 0, "chip_score": 0, "news_score": 0}
     except Exception as e:
         print(f"⚠️ Groq 連線異常: {e}")
-        return {"pattern": "連線異常", "bull": "API中斷", "bear": "API中斷", "trap": "API中斷", "stop_price": round(current_price*0.95, 2), "sizing": "防禦狀態", "action": "觀望", "confidence": 0, "entry_zone": "觀望", "target_1": 0, "target_2": 0}
+        return {"pattern": "連線異常", "bull": "API中斷", "bear": "API中斷", "trap": "API中斷", "stop_price": round(current_price*0.95, 2), "sizing": "防禦狀態", "action": "觀望", "confidence": 0, "entry_zone": "觀望", "target_1": 0, "target_2": 0, "tech_score": 0, "chip_score": 0, "news_score": 0}
 
 # 💡 阿土伯晨間戰報升級：結構化 JSON 輸出
 # 💡 阿土伯晨間戰報升級：先過濾技術面，再給 AI 寫劇本

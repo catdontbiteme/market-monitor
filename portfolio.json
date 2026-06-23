@@ -3,12 +3,6 @@
         "shares": 1000,
         "entryPrice": 95,
         "peakPrice": 95,
-        "alerted": true
-    },
-    "00981A.TW": {
-        "shares": 1000,
-        "entryPrice": 28.88,
-        "peakPrice": 32.23,
         "alerted": false
     }
 }

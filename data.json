@@ -992,7 +992,7 @@
             },
             "funda_summary": "\"高淨利率與高ROE表明營運效率佳，但高P/E與P/B值卻顯示股價過高，存在泡沫風險。\"",
             "best_ma_name": "60MA",
-            "best_ma_price": 204.41,
+            "best_ma_price": 204.4,
             "event_warning": "",
             "lights": {
                 "short": "⚪",
@@ -5016,7 +5016,7 @@
                 "bear": "財報虧損，ROE負值",
                 "trap": "POC遠低於現價，主力可能倒貨",
                 "stop_price": 155.46,
-                "sizing": "波動大，買一半就好",
+                "sizing": "波動大，減半買進",
                 "action": "嚴格觀望",
                 "confidence": 60,
                 "entry_zone": "觀望",
@@ -6035,7 +6035,7 @@
                 "chip_score": 0,
                 "news_score": 0
             },
-            "funda_summary": "穩懋的高本益比與高股價淨值比，表明市場對其估值過高，隱患在於未來業績未能達成市場預期。",
+            "funda_summary": "穩懋的高本益比與高股價淨值比，表明市場對公司估值過高，隱患在於未來業績難以維持高估值。",
             "best_ma_name": "20MA",
             "best_ma_price": 511.92,
             "event_warning": "",
@@ -10065,11 +10065,11 @@
                 "action": "嚴格觀望",
                 "confidence": 60,
                 "entry_zone": "觀望",
-                "target_1": 75.0,
-                "target_2": 82.0,
-                "tech_score": 20,
-                "chip_score": 10,
-                "news_score": 30
+                "target_1": 0,
+                "target_2": 0,
+                "tech_score": 0,
+                "chip_score": 0,
+                "news_score": 0
             },
             "funda_summary": "「營收成長率大幅負數，表明公司經營效率下滑，未來財務表現不穩定。」",
             "best_ma_name": "20MA",

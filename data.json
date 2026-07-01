@@ -1,5 +1,5 @@
 {
-    "last_update": "2026-07-01 [07:17]",
+    "last_update": "2026-07-01 [17:55]",
     "data": [
         {
             "symbol": "NVDA",
@@ -954,7 +954,7 @@
                 {
                     "date": "2026-06-30",
                     "price": 200.09,
-                    "volume": 163092701,
+                    "volume": 165981900,
                     "ma5": 196.47,
                     "ma20": 205.72,
                     "ma60": 206.4,
@@ -968,7 +968,7 @@
                     "trailing_stop": 184.77
                 }
             ],
-            "vol_ratio": 1.02,
+            "vol_ratio": 1.03,
             "smart_money": "無明顯大戶異常動向",
             "poc_price": 184.36,
             "actual_sl": 0.06,
@@ -976,8 +976,8 @@
             "rs_score": 0,
             "unified_brain": {
                 "pattern": "跌破20MA轉弱",
-                "bull": "RSI底背離，可能止跌反彈",
-                "bear": "財報顯示營收成長率過快，可能導致未來盈利率下降",
+                "bull": "RSI底背離，量價配合良好",
+                "bear": "財報過度估值隱患",
                 "trap": "現價高於POC，主力可能倒貨",
                 "stop_price": 193.75,
                 "sizing": "波動大，買一半就好",
@@ -985,12 +985,12 @@
                 "confidence": 60,
                 "entry_zone": "190-195",
                 "target_1": 205.0,
-                "target_2": 212.0,
+                "target_2": 212.27,
                 "tech_score": 40,
                 "chip_score": 60,
-                "news_score": 40
+                "news_score": 70
             },
-            "funda_summary": "\"高淨利率與高ROE表明營收成長率過快，可能導致未來盈利率下降，股價過高。\"",
+            "funda_summary": "Nvidia 的高本益比與股價淨值比，表明股價過高，財務隱患：過度估值。",
             "best_ma_name": "60MA",
             "best_ma_price": 206.4,
             "event_warning": "",
@@ -1963,7 +1963,7 @@
                 {
                     "date": "2026-06-30",
                     "price": 420.6,
-                    "volume": 41757573,
+                    "volume": 43068300,
                     "ma5": 392.56,
                     "ma20": 400.59,
                     "ma60": 398.61,
@@ -1977,7 +1977,7 @@
                     "trailing_stop": 380.85
                 }
             ],
-            "vol_ratio": 0.87,
+            "vol_ratio": 0.9,
             "smart_money": "無明顯大戶異常動向",
             "poc_price": 398.96,
             "actual_sl": 0.06,
@@ -1985,11 +1985,11 @@
             "rs_score": 0,
             "unified_brain": {
                 "pattern": "強勢突破",
-                "bull": "站上20MA，RSI底背離",
-                "bear": "高本益比，投資風險高",
+                "bull": "RSI底背離，止跌反彈",
+                "bear": "財報高P/E比，隱患在於未來業績",
                 "trap": "POC在398.96，現價高於POC，主力可能倒貨",
                 "stop_price": 403.12,
-                "sizing": "買一半就好",
+                "sizing": "波動大，買一半就好",
                 "action": "縮注試單",
                 "confidence": 60,
                 "entry_zone": "408-415",
@@ -1997,9 +1997,9 @@
                 "target_2": 450.0,
                 "tech_score": 70,
                 "chip_score": 40,
-                "news_score": 60
+                "news_score": 40
             },
-            "funda_summary": "「高本益比與股價淨值比，表明股價已經過度膨脹，投資風險極高。」",
+            "funda_summary": "\"高淨值比與高P/E比，表明市場對Tesla過度樂觀，股價過高，隱患在於未來業績未能滿足市場預期。\"",
             "best_ma_name": "20MA",
             "best_ma_price": 400.59,
             "event_warning": "",
@@ -2972,7 +2972,7 @@
                 {
                     "date": "2026-06-30",
                     "price": 746.77,
-                    "volume": 49944582,
+                    "volume": 55540700,
                     "ma5": 736.86,
                     "ma20": 741.09,
                     "ma60": 725.71,
@@ -2986,7 +2986,7 @@
                     "trailing_stop": 719.78
                 }
             ],
-            "vol_ratio": 0.79,
+            "vol_ratio": 0.87,
             "smart_money": "無明顯大戶異常動向",
             "poc_price": 684.44,
             "actual_sl": 0.03,
@@ -2994,21 +2994,21 @@
             "rs_score": 0,
             "unified_brain": {
                 "pattern": "強勢偏多",
-                "bull": "站上20MA趨勢多頭",
-                "bear": "動能不足，量價配合不佳",
-                "trap": "現價高於POC，主力可能倒貨",
+                "bull": "站上20MA趨勢偏多",
+                "bear": "估值過高隱患存在",
+                "trap": "POC在684.44，現價偏高主力可能倒貨",
                 "stop_price": 735.47,
-                "sizing": "波動大，減半買入",
+                "sizing": "買一半觀察",
                 "action": "嚴格觀望",
                 "confidence": 60,
                 "entry_zone": "觀望",
                 "target_1": 758.45,
-                "target_2": 775.0,
+                "target_2": 780.0,
                 "tech_score": 70,
-                "chip_score": 60,
-                "news_score": 40
+                "chip_score": 40,
+                "news_score": 20
             },
-            "funda_summary": "S&P 500 的本益比已經高於市場平均值，表明市場對未來成長的估值過高。",
+            "funda_summary": "高本益比與高股價淨值比，表明市場對 S&P 500 的估值過高，隱患存在。",
             "best_ma_name": "60MA",
             "best_ma_price": 725.71,
             "event_warning": "",
@@ -3032,24 +3032,8 @@
             "symbol": "2330.TW",
             "name": "台積電",
             "category": "晶圓代工",
-            "price": 2410.0,
+            "price": 2505.0,
             "history": [
-                {
-                    "date": "2026-04-02",
-                    "price": 1810.0,
-                    "volume": 29332490,
-                    "ma5": 1805.0,
-                    "ma20": 1844.0,
-                    "ma60": 0.0,
-                    "macd": -12.86,
-                    "macd_signal": -6.39,
-                    "macd_hist": -6.47,
-                    "rsi": 43.68,
-                    "bb_upper": 1929.14,
-                    "bb_lower": 1758.86,
-                    "atr": 46.79,
-                    "trailing_stop": 1748.04
-                },
                 {
                     "date": "2026-04-07",
                     "price": 1860.0,
@@ -3993,33 +3977,49 @@
                     "bb_lower": 2238.69,
                     "atr": 62.86,
                     "trailing_stop": 2317.86
+                },
+                {
+                    "date": "2026-07-01",
+                    "price": 2505.0,
+                    "volume": 37544470,
+                    "ma5": 2403.0,
+                    "ma20": 2378.25,
+                    "ma60": 2245.92,
+                    "macd": 43.63,
+                    "macd_signal": 43.44,
+                    "macd_hist": 0.19,
+                    "rsi": 69.84,
+                    "bb_upper": 2524.26,
+                    "bb_lower": 2232.24,
+                    "atr": 66.07,
+                    "trailing_stop": 2339.82
                 }
             ],
-            "vol_ratio": 1.17,
+            "vol_ratio": 0.89,
             "smart_money": "⚖️【法人觀望】近五日外資淨動向 0 張，投信 0 張。",
             "poc_price": 2255.62,
             "actual_sl": 0.04,
-            "rsi": 58.97,
+            "rsi": 69.84,
             "rs_score": 0,
             "unified_brain": {
-                "pattern": "強勢整理",
-                "bull": "量能逐漸回升，多頭趨勢不變",
-                "bear": "財報高風險，高淨值比與高本益比",
-                "trap": "現價高於POC，主力可能倒貨",
-                "stop_price": 2345.14,
+                "pattern": "漲不動了",
+                "bull": "台積電一度漲105元，專家看多",
+                "bear": "財報顯示股價過高，風險大",
+                "trap": "現價遠高於POC，主力可能倒貨",
+                "stop_price": 2380.0,
                 "sizing": "波動大，買一半就好",
-                "action": "抱牢續賺",
-                "confidence": 70,
-                "entry_zone": "2350-2380",
-                "target_1": 2450.0,
-                "target_2": 2550.0,
-                "tech_score": 75,
-                "chip_score": 60,
-                "news_score": 80
+                "action": "嚴格觀望",
+                "confidence": 60,
+                "entry_zone": "觀望",
+                "target_1": 2550.0,
+                "target_2": 2650.0,
+                "tech_score": 70,
+                "chip_score": 40,
+                "news_score": 50
             },
-            "funda_summary": "「高淨值比與高本益比，表明股價過高，高風險。」",
+            "funda_summary": "台積電的高股價淨值比（11.027179）與高本益比（34.076996）指出公司股價過高，隱患在於未來股價下跌的風險。",
             "best_ma_name": "5MA",
-            "best_ma_price": 2380.0,
+            "best_ma_price": 2403.0,
             "event_warning": "",
             "lights": {
                 "short": "⚪",
@@ -4029,10 +4029,10 @@
             "divergence_signal": "無明顯背離",
             "fib_levels": {
                 "high": 2535.0,
-                "low": 1805.0,
-                "fib382": 2256.14,
-                "fib500": 2170.0,
-                "fib618": 2083.86
+                "low": 1835.0,
+                "fib382": 2267.6,
+                "fib500": 2185.0,
+                "fib618": 2102.4
             },
             "volume_trend": "縮量上漲(動能不足)",
             "weekly_trend": "週線多頭(站上20週MA)"
@@ -4041,24 +4041,8 @@
             "symbol": "2337.TW",
             "name": "旺宏",
             "category": "記憶體",
-            "price": 155.5,
+            "price": 143.5,
             "history": [
-                {
-                    "date": "2026-04-02",
-                    "price": 129.0,
-                    "volume": 26764501,
-                    "ma5": 124.9,
-                    "ma20": 124.11,
-                    "ma60": 0.0,
-                    "macd": 7.2,
-                    "macd_signal": 9.65,
-                    "macd_hist": -2.45,
-                    "rsi": 58.1,
-                    "bb_upper": 165.36,
-                    "bb_lower": 82.86,
-                    "atr": 13.29,
-                    "trailing_stop": 113.16
-                },
                 {
                     "date": "2026-04-07",
                     "price": 136.5,
@@ -5002,33 +4986,49 @@
                     "bb_lower": 133.28,
                     "atr": 11.68,
                     "trailing_stop": 145.12
+                },
+                {
+                    "date": "2026-07-01",
+                    "price": 143.5,
+                    "volume": 129835728,
+                    "ma5": 156.3,
+                    "ma20": 157.3,
+                    "ma60": 153.28,
+                    "macd": 0.91,
+                    "macd_signal": 2.73,
+                    "macd_hist": -1.81,
+                    "rsi": 54.07,
+                    "bb_upper": 182.55,
+                    "bb_lower": 132.05,
+                    "atr": 11.93,
+                    "trailing_stop": 145.12
                 }
             ],
-            "vol_ratio": 1.09,
+            "vol_ratio": 1.52,
             "smart_money": "⚖️【法人觀望】近五日外資淨動向 0 張，投信 0 張。",
             "poc_price": 89.55,
             "actual_sl": 0.03,
-            "rsi": 54.85,
+            "rsi": 54.07,
             "rs_score": 0,
             "unified_brain": {
-                "pattern": "跌破月線轉弱",
-                "bull": "費波支撐區間",
+                "pattern": "跌破20MA轉弱",
+                "bull": "無特別利多",
                 "bear": "財報虧損，ROE負值",
                 "trap": "現價遠高於POC，主力可能倒貨",
-                "stop_price": 144.82,
-                "sizing": "波動大，減半買入",
-                "action": "嚴格觀望",
-                "confidence": 60,
+                "stop_price": 131.57,
+                "sizing": "波動大，減碼觀望",
+                "action": "破線快逃",
+                "confidence": 80,
                 "entry_zone": "觀望",
-                "target_1": 146.27,
-                "target_2": 163.73,
-                "tech_score": 30,
-                "chip_score": 20,
-                "news_score": 10
+                "target_1": 128.0,
+                "target_2": 118.0,
+                "tech_score": 20,
+                "chip_score": 10,
+                "news_score": 20
             },
-            "funda_summary": "旺宏的財務隱患：連續三年虧損，ROE負值，淨利率負值，股價淨值比高於市場平均值。",
+            "funda_summary": "旺宏的財務隱患：連續三年虧損，ROE負值，股價淨值比過高，顯示市場對其未來前景過度樂觀。",
             "best_ma_name": "5MA",
-            "best_ma_price": 162.0,
+            "best_ma_price": 156.3,
             "event_warning": "",
             "lights": {
                 "short": "⚪",
@@ -5050,24 +5050,8 @@
             "symbol": "3105.TWO",
             "name": "穩懋",
             "category": "半導體",
-            "price": 426.0,
+            "price": 417.5,
             "history": [
-                {
-                    "date": "2026-04-02",
-                    "price": 376.0,
-                    "volume": 59229604,
-                    "ma5": 375.4,
-                    "ma20": 329.23,
-                    "ma60": 0.0,
-                    "macd": 24.92,
-                    "macd_signal": 21.89,
-                    "macd_hist": 3.03,
-                    "rsi": 61.98,
-                    "bb_upper": 402.4,
-                    "bb_lower": 256.05,
-                    "atr": 32.57,
-                    "trailing_stop": 322.57
-                },
                 {
                     "date": "2026-04-07",
                     "price": 407.0,
@@ -6011,33 +5995,49 @@
                     "bb_lower": 414.13,
                     "atr": 36.68,
                     "trailing_stop": 364.3
+                },
+                {
+                    "date": "2026-07-01",
+                    "price": 417.5,
+                    "volume": 16197389,
+                    "ma5": 428.5,
+                    "ma20": 481.65,
+                    "ma60": 498.34,
+                    "macd": -18.18,
+                    "macd_signal": -7.07,
+                    "macd_hist": -11.1,
+                    "rsi": 37.92,
+                    "bb_upper": 558.8,
+                    "bb_lower": 404.5,
+                    "atr": 34.96,
+                    "trailing_stop": 364.3
                 }
             ],
-            "vol_ratio": 0.66,
+            "vol_ratio": 0.6,
             "smart_money": "⚖️【法人觀望】近五日外資淨動向 0 張，投信 0 張。",
             "poc_price": 518.45,
             "actual_sl": 0.1,
-            "rsi": 36.47,
+            "rsi": 37.92,
             "rs_score": 0,
             "unified_brain": {
                 "pattern": "跌破月線轉弱",
                 "bull": "RSI底背離，可能止跌反彈",
-                "bear": "財報高本益比，股價過度膨脹",
-                "trap": "現價遠低於POC，主力已經被套牢",
-                "stop_price": 394.32,
+                "bear": "財報高本益比，股價過高",
+                "trap": "現價遠低於POC，主力已經拉開成本",
+                "stop_price": 385.0,
                 "sizing": "波動大，買一半就好",
                 "action": "縮注試單",
                 "confidence": 60,
-                "entry_zone": "觀望",
-                "target_1": 450.0,
-                "target_2": 480.0,
-                "tech_score": 45,
+                "entry_zone": "390-420",
+                "target_1": 440.0,
+                "target_2": 460.0,
+                "tech_score": 40,
                 "chip_score": 20,
                 "news_score": 30
             },
-            "funda_summary": "穩懋的高本益比與高股價淨值比，表明股價已經過度膨脹，隱患在於未來股價可能大幅回落。",
+            "funda_summary": "穩懋的高本益比與高股價淨值比，表明股價過高，存在泡沫風險。",
             "best_ma_name": "20MA",
-            "best_ma_price": 486.72,
+            "best_ma_price": 481.65,
             "event_warning": "",
             "lights": {
                 "short": "⚪",
@@ -6047,10 +6047,10 @@
             "divergence_signal": "⚡ RSI底背離(止跌反彈訊號)",
             "fib_levels": {
                 "high": 637.0,
-                "low": 374.0,
-                "fib382": 536.53,
-                "fib500": 505.5,
-                "fib618": 474.47
+                "low": 391.0,
+                "fib382": 543.03,
+                "fib500": 514.0,
+                "fib618": 484.97
             },
             "volume_trend": "縮量下跌(無量陰跌)",
             "weekly_trend": "週線空頭(跌破20週MA)"
@@ -6059,24 +6059,8 @@
             "symbol": "0050.TW",
             "name": "台灣50",
             "category": "台股龍頭",
-            "price": 107.8,
+            "price": 109.35,
             "history": [
-                {
-                    "date": "2026-04-02",
-                    "price": 73.95,
-                    "volume": 113976137,
-                    "ma5": 74.13,
-                    "ma20": 75.48,
-                    "ma60": 0.0,
-                    "macd": -0.39,
-                    "macd_signal": -0.09,
-                    "macd_hist": -0.3,
-                    "rsi": 43.94,
-                    "bb_upper": 78.38,
-                    "bb_lower": 72.59,
-                    "atr": 1.85,
-                    "trailing_stop": 71.43
-                },
                 {
                     "date": "2026-04-07",
                     "price": 75.3,
@@ -7020,33 +7004,49 @@
                     "bb_lower": 99.17,
                     "atr": 2.86,
                     "trailing_stop": 101.09
+                },
+                {
+                    "date": "2026-07-01",
+                    "price": 109.35,
+                    "volume": 76131395,
+                    "ma5": 106.38,
+                    "ma20": 105.45,
+                    "ma60": 96.58,
+                    "macd": 2.4,
+                    "macd_signal": 2.67,
+                    "macd_hist": -0.28,
+                    "rsi": 67.43,
+                    "bb_upper": 111.82,
+                    "bb_lower": 99.09,
+                    "atr": 2.78,
+                    "trailing_stop": 102.99
                 }
             ],
-            "vol_ratio": 0.61,
+            "vol_ratio": 0.43,
             "smart_money": "⚖️【法人觀望】近五日外資淨動向 0 張，投信 0 張。",
             "poc_price": 74.69,
             "actual_sl": 0.1,
-            "rsi": 57.73,
+            "rsi": 67.43,
             "rs_score": 0,
             "unified_brain": {
-                "pattern": "多頭趨勢",
-                "bull": "站上20MA，趨勢偏多",
-                "bear": "本益比高達31.48，估值過高",
+                "pattern": "強勢偏多",
+                "bull": "量縮上漲，趨勢仍多",
+                "bear": "動能不足，估值過高",
                 "trap": "現價遠高於POC，主力可能倒貨",
-                "stop_price": 104.94,
+                "stop_price": 106.57,
                 "sizing": "買一半就好",
                 "action": "嚴格觀望",
                 "confidence": 60,
                 "entry_zone": "觀望",
-                "target_1": 110.0,
+                "target_1": 112.0,
                 "target_2": 115.0,
                 "tech_score": 70,
                 "chip_score": 40,
-                "news_score": 80
+                "news_score": 60
             },
-            "funda_summary": "本益比高達31.48，表明市場對台灣50的估值過高，隱患在於未來成長率難以超越市場預期。",
+            "funda_summary": "本益比高達31.9343，表明市場對台灣50的估值過高，存在泡沫風險。",
             "best_ma_name": "5MA",
-            "best_ma_price": 105.94,
+            "best_ma_price": 106.38,
             "event_warning": "",
             "lights": {
                 "short": "⚪",
@@ -7056,10 +7056,10 @@
             "divergence_signal": "無明顯背離",
             "fib_levels": {
                 "high": 112.3,
-                "low": 73.8,
-                "fib382": 97.59,
-                "fib500": 93.05,
-                "fib618": 88.51
+                "low": 74.65,
+                "fib382": 97.92,
+                "fib500": 93.47,
+                "fib618": 89.03
             },
             "volume_trend": "縮量上漲(動能不足)",
             "weekly_trend": "週線多頭(站上20週MA)"
@@ -7068,24 +7068,8 @@
             "symbol": "00981A.TW",
             "name": "主動統一台股增長",
             "category": "台股",
-            "price": 31.28,
+            "price": 32.0,
             "history": [
-                {
-                    "date": "2026-04-02",
-                    "price": 20.22,
-                    "volume": 254627021,
-                    "ma5": 20.33,
-                    "ma20": 20.25,
-                    "ma60": 0.0,
-                    "macd": 0.33,
-                    "macd_signal": 0.44,
-                    "macd_hist": -0.11,
-                    "rsi": 49.91,
-                    "bb_upper": 21.63,
-                    "bb_lower": 18.86,
-                    "atr": 0.74,
-                    "trailing_stop": 19.42
-                },
                 {
                     "date": "2026-04-07",
                     "price": 20.74,
@@ -8029,33 +8013,49 @@
                     "bb_lower": 29.47,
                     "atr": 1.08,
                     "trailing_stop": 29.47
+                },
+                {
+                    "date": "2026-07-01",
+                    "price": 32.0,
+                    "volume": 310261100,
+                    "ma5": 30.93,
+                    "ma20": 31.0,
+                    "ma60": 28.85,
+                    "macd": 0.44,
+                    "macd_signal": 0.55,
+                    "macd_hist": -0.11,
+                    "rsi": 62.49,
+                    "bb_upper": 32.55,
+                    "bb_lower": 29.44,
+                    "atr": 1.03,
+                    "trailing_stop": 29.64
                 }
             ],
-            "vol_ratio": 0.86,
+            "vol_ratio": 1.16,
             "smart_money": "⚖️【法人觀望】近五日外資淨動向 0 張，投信 0 張。",
             "poc_price": 29.51,
             "actual_sl": 0.08,
-            "rsi": 50.28,
+            "rsi": 62.49,
             "rs_score": 0,
             "unified_brain": {
-                "pattern": "多頭趨勢",
+                "pattern": "強勢突破",
                 "bull": "站上20MA，趨勢偏多",
-                "bear": "財報本益比過高，投資風險增加",
+                "bear": "高本益比隱患大",
                 "trap": "POC在29.51，現價高於POC，主力可能倒貨",
-                "stop_price": 29.2,
+                "stop_price": 30.97,
                 "sizing": "波動大，買一半就好",
-                "action": "縮注試單",
-                "confidence": 60,
-                "entry_zone": "29.50-30.50",
-                "target_1": 32.5,
+                "action": "抱牢續賺",
+                "confidence": 80,
+                "entry_zone": "30.5-31.5",
+                "target_1": 33.5,
                 "target_2": 35.0,
                 "tech_score": 70,
-                "chip_score": 40,
-                "news_score": 20
+                "chip_score": 60,
+                "news_score": 60
             },
-            "funda_summary": "本益比過高（65.06279），表明股價過高，投資風險增加。",
+            "funda_summary": "高本益比(P/E)66.56，表明股價過高，隱患大。",
             "best_ma_name": "5MA",
-            "best_ma_price": 30.82,
+            "best_ma_price": 30.93,
             "event_warning": "",
             "lights": {
                 "short": "⚪",
@@ -8065,36 +8065,20 @@
             "divergence_signal": "無明顯背離",
             "fib_levels": {
                 "high": 32.73,
-                "low": 20.16,
-                "fib382": 27.93,
-                "fib500": 26.45,
-                "fib618": 24.96
+                "low": 20.56,
+                "fib382": 28.08,
+                "fib500": 26.64,
+                "fib618": 25.21
             },
-            "volume_trend": "縮量下跌(無量陰跌)",
+            "volume_trend": "放量上漲(強勢確認)",
             "weekly_trend": "週線多頭(站上20週MA)"
         },
         {
             "symbol": "9802.TW",
             "name": "鈺齊-KY",
             "category": "運動鞋",
-            "price": 72.7,
+            "price": 72.4,
             "history": [
-                {
-                    "date": "2026-04-02",
-                    "price": 76.8,
-                    "volume": 1456493,
-                    "ma5": 78.4,
-                    "ma20": 82.41,
-                    "ma60": 0.0,
-                    "macd": -3.6,
-                    "macd_signal": -3.43,
-                    "macd_hist": -0.17,
-                    "rsi": 25.81,
-                    "bb_upper": 89.92,
-                    "bb_lower": 74.9,
-                    "atr": 2.5,
-                    "trailing_stop": 75.17
-                },
                 {
                     "date": "2026-04-07",
                     "price": 75.6,
@@ -9038,40 +9022,56 @@
                     "bb_lower": 71.83,
                     "atr": 2.21,
                     "trailing_stop": 69.75
+                },
+                {
+                    "date": "2026-07-01",
+                    "price": 72.4,
+                    "volume": 598571,
+                    "ma5": 73.14,
+                    "ma20": 76.92,
+                    "ma60": 77.12,
+                    "macd": -1.32,
+                    "macd_signal": -0.75,
+                    "macd_hist": -0.57,
+                    "rsi": 13.68,
+                    "bb_upper": 82.62,
+                    "bb_lower": 71.22,
+                    "atr": 2.04,
+                    "trailing_stop": 69.75
                 }
             ],
-            "vol_ratio": 0.59,
+            "vol_ratio": 0.68,
             "smart_money": "⚖️【法人觀望】近五日外資淨動向 0 張，投信 0 張。",
-            "poc_price": 80.89,
+            "poc_price": 80.81,
             "actual_sl": 0.03,
-            "rsi": 13.91,
+            "rsi": 13.68,
             "rs_score": 0,
             "unified_brain": {
                 "pattern": "跌破月線轉弱",
-                "bull": "量能收斂，可能止跌",
-                "bear": "趨勢偏空，財報不佳",
-                "trap": "POC 80.89 高於現價，主力可能倒貨",
-                "stop_price": 70.49,
-                "sizing": "波動大，少量試單",
-                "action": "嚴格觀望",
+                "bull": "MACD底背離，動能蓄積",
+                "bear": "趨勢偏空，估值過高",
+                "trap": "POC在80.81，現價遠低於POC，主力已被套牢",
+                "stop_price": 70.36,
+                "sizing": "波動大，買一半就好",
+                "action": "縮注試單",
                 "confidence": 60,
-                "entry_zone": "觀望",
-                "target_1": 75.0,
+                "entry_zone": "70-75",
+                "target_1": 75.5,
                 "target_2": 80.0,
-                "tech_score": 20,
-                "chip_score": 10,
-                "news_score": 30
+                "tech_score": 45,
+                "chip_score": 20,
+                "news_score": 50
             },
-            "funda_summary": "鈺齊-KY：低ROE（8.23%）與近期營收成長率（0.2%）表明公司營運效率低下，未來成長潛力有限。",
+            "funda_summary": "「鈺齊-KY的股價淨值比明顯偏高，表明市場對其估值過高，存在泡沫風險。」",
             "best_ma_name": "10MA",
-            "best_ma_price": 75.11,
+            "best_ma_price": 74.58,
             "event_warning": "",
             "lights": {
                 "short": "⚪",
                 "mid": "⚪",
                 "long": "⚪"
             },
-            "divergence_signal": "無明顯背離",
+            "divergence_signal": "⚡ MACD底背離(動能蓄積)",
             "fib_levels": {
                 "high": 85.7,
                 "low": 71.9,
@@ -9086,24 +9086,8 @@
             "symbol": "9910.TW",
             "name": "豐泰",
             "category": "運動鞋",
-            "price": 70.0,
+            "price": 69.0,
             "history": [
-                {
-                    "date": "2026-04-02",
-                    "price": 79.0,
-                    "volume": 2078819,
-                    "ma5": 80.46,
-                    "ma20": 83.13,
-                    "ma60": 0.0,
-                    "macd": -3.11,
-                    "macd_signal": -3.27,
-                    "macd_hist": 0.16,
-                    "rsi": 38.35,
-                    "bb_upper": 90.18,
-                    "bb_lower": 76.08,
-                    "atr": 2.37,
-                    "trailing_stop": 76.35
-                },
                 {
                     "date": "2026-04-07",
                     "price": 78.9,
@@ -10047,40 +10031,56 @@
                     "bb_lower": 61.23,
                     "atr": 4.66,
                     "trailing_stop": 63.39
+                },
+                {
+                    "date": "2026-07-01",
+                    "price": 69.0,
+                    "volume": 1904183,
+                    "ma5": 69.78,
+                    "ma20": 77.65,
+                    "ma60": 74.55,
+                    "macd": -1.8,
+                    "macd_signal": -0.53,
+                    "macd_hist": -1.27,
+                    "rsi": 14.69,
+                    "bb_upper": 95.04,
+                    "bb_lower": 60.25,
+                    "atr": 4.22,
+                    "trailing_stop": 63.39
                 }
             ],
-            "vol_ratio": 0.33,
+            "vol_ratio": 0.25,
             "smart_money": "⚖️【法人觀望】近五日外資淨動向 0 張，投信 0 張。",
             "poc_price": 93.25,
             "actual_sl": 0.1,
-            "rsi": 30.64,
+            "rsi": 14.69,
             "rs_score": 0,
             "unified_brain": {
                 "pattern": "跌破月線轉弱",
-                "bull": "RSI底背離，可能止跌反彈",
-                "bear": "財報成長隱憂，EPS預估下修",
-                "trap": "POC遠在93.25，現價遠低於主力成本區，可能被套牢",
-                "stop_price": 65.34,
+                "bull": "MACD底背離，動能蓄積",
+                "bear": "財報不佳，EPS預估下修",
+                "trap": "POC遠在93.25，主力已拉高成本，注意倒貨",
+                "stop_price": 64.78,
                 "sizing": "波動大，買一半就好",
-                "action": "縮注試單",
+                "action": "嚴格觀望",
                 "confidence": 60,
-                "entry_zone": "65-70",
+                "entry_zone": "觀望",
                 "target_1": 75.0,
-                "target_2": 82.7,
+                "target_2": 82.0,
                 "tech_score": 40,
                 "chip_score": 20,
                 "news_score": 30
             },
-            "funda_summary": "豐泰股價淨值比高於市場平均，表明股價過高，隱患較大。",
+            "funda_summary": "豐泰股價淨值比高於市場平均，表明股價過高，存在資本溢價風險。",
             "best_ma_name": "20MA",
-            "best_ma_price": 78.15,
+            "best_ma_price": 77.65,
             "event_warning": "",
             "lights": {
                 "short": "⚪",
                 "mid": "⚪",
                 "long": "⚪"
             },
-            "divergence_signal": "⚡ RSI底背離(止跌反彈訊號)、⚡ MACD底背離(動能蓄積)",
+            "divergence_signal": "⚡ MACD底背離(動能蓄積)",
             "fib_levels": {
                 "high": 99.0,
                 "low": 66.4,
@@ -10095,24 +10095,8 @@
             "symbol": "9904.TW",
             "name": "寶成",
             "category": "運動鞋",
-            "price": 25.35,
+            "price": 25.0,
             "history": [
-                {
-                    "date": "2026-04-02",
-                    "price": 28.45,
-                    "volume": 5987253,
-                    "ma5": 28.61,
-                    "ma20": 29.02,
-                    "ma60": 0.0,
-                    "macd": -0.46,
-                    "macd_signal": -0.48,
-                    "macd_hist": 0.02,
-                    "rsi": 33.85,
-                    "bb_upper": 30.22,
-                    "bb_lower": 27.83,
-                    "atr": 0.47,
-                    "trailing_stop": 27.66
-                },
                 {
                     "date": "2026-04-07",
                     "price": 28.45,
@@ -11056,33 +11040,49 @@
                     "bb_lower": 25.32,
                     "atr": 0.42,
                     "trailing_stop": 24.5
+                },
+                {
+                    "date": "2026-07-01",
+                    "price": 25.0,
+                    "volume": 62376656,
+                    "ma5": 25.4,
+                    "ma20": 26.09,
+                    "ma60": 26.36,
+                    "macd": -0.24,
+                    "macd_signal": -0.12,
+                    "macd_hist": -0.12,
+                    "rsi": 24.14,
+                    "bb_upper": 27.05,
+                    "bb_lower": 25.12,
+                    "atr": 0.42,
+                    "trailing_stop": 24.54
                 }
             ],
-            "vol_ratio": 1.19,
+            "vol_ratio": 2.36,
             "smart_money": "⚖️【法人觀望】近五日外資淨動向 0 張，投信 0 張。",
-            "poc_price": 26.07,
+            "poc_price": 25.9,
             "actual_sl": 0.05,
-            "rsi": 27.45,
+            "rsi": 24.14,
             "rs_score": 0,
             "unified_brain": {
                 "pattern": "跌破月線轉弱",
-                "bull": "低本益比與高股價淨值比，市場對寶成未來成長信心不足，股價過度低估",
-                "bear": "放量下跌，主力出貨警訊，市場估值把股東權益打對折",
-                "trap": "現價低於POC，主力已經被套牢，上方壓力極大",
-                "stop_price": 24.93,
-                "sizing": "波動大，減少買入",
+                "bull": "低本益比與高股價淨值比，市場過度低估",
+                "bear": "放量下跌，主力出貨警訊",
+                "trap": "POC 25.9，現價25.0，主力已經被套牢，上方壓力極大",
+                "stop_price": 24.18,
+                "sizing": "波動大，少量試單",
                 "action": "破線快逃",
                 "confidence": 80,
                 "entry_zone": "觀望",
                 "target_1": 24.5,
-                "target_2": 23.8,
+                "target_2": 26.0,
                 "tech_score": 20,
                 "chip_score": 10,
                 "news_score": 30
             },
             "funda_summary": "「低本益比與高股價淨值比，表明市場對寶成未來成長信心不足，股價過度低估。」",
             "best_ma_name": "60MA",
-            "best_ma_price": 26.41,
+            "best_ma_price": 26.36,
             "event_warning": "",
             "lights": {
                 "short": "⚪",
@@ -11092,17 +11092,17 @@
             "divergence_signal": "無明顯背離",
             "fib_levels": {
                 "high": 28.95,
-                "low": 25.1,
-                "fib382": 27.48,
-                "fib500": 27.02,
-                "fib618": 26.57
+                "low": 25.0,
+                "fib382": 27.44,
+                "fib500": 26.98,
+                "fib618": 26.51
             },
             "volume_trend": "放量下跌(主力出貨警訊)",
             "weekly_trend": "週線空頭(跌破20週MA)"
         }
     ],
     "market_health": {
-        "vix": 16.45,
+        "vix": 16.91,
         "health_pct": 45,
         "us_summary": {
             "標普500": {
@@ -11118,12 +11118,12 @@
                 "pct": 4.94
             },
             "恐慌指數": {
-                "price": 16.45,
-                "pct": -6.8
+                "price": 16.91,
+                "pct": 2.8
             },
             "紐約原油": {
-                "price": 70.0,
-                "pct": -1.06
+                "price": 68.66,
+                "pct": -1.21
             }
         },
         "sector_data": [
@@ -11132,36 +11132,41 @@
                 "rs": 5.97
             },
             {
-                "name": "🇺🇸美股科技",
-                "rs": -2.33
+                "name": "🇹🇼台股高息",
+                "rs": -1.57
             },
             {
                 "name": "🇹🇼台股科技",
-                "rs": NaN
+                "rs": -1.98
             },
             {
-                "name": "🇹🇼台股高息",
-                "rs": NaN
+                "name": "🇺🇸美股科技",
+                "rs": -2.33
             }
         ],
         "ai_script": {
             "sentiment": "偏多",
-            "title": "科技股領漲，台積電ADR大漲",
+            "title": "科技股領漲，台積電ADR大漲5%",
             "metrics": [
                 {
                     "label": "VIX 恐慌指數",
-                    "value": "16.45",
-                    "status": "正常"
+                    "value": "16.91",
+                    "status": "正常(綠)"
                 }
             ],
             "sector_lights": [
                 {
                     "sector": "半導體",
                     "color": "green",
-                    "reason": "台積電ADR大漲，帶動半導體板塊走高"
+                    "reason": "台積電ADR大漲5%"
+                },
+                {
+                    "sector": "科技",
+                    "color": "yellow",
+                    "reason": "費城半導體指數漲4.3%"
                 }
             ],
-            "conclusion": "昨日美股科技股領漲，台積電ADR大漲近5%，今日建議關注台積電(2330.TW)走勢，觀察是否能帶動台灣50(0050.TW)走高"
+            "conclusion": "昨日科技股領漲，台積電ADR大漲5%，建議關注半導體板塊，今日可觀察2330.TW走勢，其他板塊建議觀望不接刀。"
         },
         "bloodbath_report": "✅ 目前市場無大級別恐慌，無需撰寫抄底報告。"
     },
@@ -11169,5 +11174,5 @@
         "tw_insight": "✅ 0050多頭穩定",
         "us_insight": "✅ SPY多頭穩定"
     },
-    "token_usage": 22065
+    "token_usage": 21865
 }

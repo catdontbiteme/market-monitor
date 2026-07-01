@@ -983,9 +983,9 @@
                 "sizing": "波動大，買一半就好",
                 "action": "縮注試單",
                 "confidence": 60,
-                "entry_zone": "184-192",
+                "entry_zone": "190-195",
                 "target_1": 202.5,
-                "target_2": 215.0,
+                "target_2": 210.0,
                 "tech_score": 40,
                 "chip_score": 60,
                 "news_score": 70
@@ -3008,7 +3008,7 @@
                 "chip_score": 60,
                 "news_score": 40
             },
-            "funda_summary": "P/E 過高，表明市場對 S&P 500 的估值過高，隱患存在。",
+            "funda_summary": "高本益比與高股價淨值比，表明市場對 S&P 500 的估值過高，隱患存在。",
             "best_ma_name": "60MA",
             "best_ma_price": 727.24,
             "event_warning": "",
@@ -5024,7 +5024,7 @@
                 "target_2": 118.0,
                 "tech_score": 20,
                 "chip_score": 10,
-                "news_score": 0
+                "news_score": 20
             },
             "funda_summary": "旺宏的財務隱患：連續三年虧損，ROE負值，淨利率負值，股價淨值比過高，股東權益報酬率極低。",
             "best_ma_name": "5MA",

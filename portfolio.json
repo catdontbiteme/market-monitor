@@ -9,6 +9,6 @@
         "shares": 1000,
         "entryPrice": 28.8,
         "peakPrice": 32.26,
-        "alerted": false
+        "alerted": true
     }
 }

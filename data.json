@@ -1,5 +1,5 @@
 {
-    "last_update": "2026-08-26 [06:31]",
+    "last_update": "2026-08-26 [14:54]",
     "data": [
         {
             "symbol": "NVDA",
@@ -954,7 +954,7 @@
                 {
                     "date": "2026-08-25",
                     "price": 213.05,
-                    "volume": 120441439,
+                    "volume": 121722500,
                     "ma5": 214.13,
                     "ma20": 214.58,
                     "ma60": 208.38,
@@ -968,7 +968,7 @@
                     "trailing_stop": 200.73
                 }
             ],
-            "vol_ratio": 1.05,
+            "vol_ratio": 1.06,
             "smart_money": "無明顯大戶異常動向",
             "poc_price": 198.46,
             "actual_sl": 0.06,
@@ -1963,7 +1963,7 @@
                 {
                     "date": "2026-08-25",
                     "price": 350.25,
-                    "volume": 29715710,
+                    "volume": 29766300,
                     "ma5": 351.66,
                     "ma20": 332.27,
                     "ma60": 370.87,
@@ -2972,7 +2972,7 @@
                 {
                     "date": "2026-08-25",
                     "price": 765.91,
-                    "volume": 27030487,
+                    "volume": 27387900,
                     "ma5": 765.35,
                     "ma20": 764.8,
                     "ma60": 751.01,
@@ -2986,7 +2986,7 @@
                     "trailing_stop": 758.73
                 }
             ],
-            "vol_ratio": 0.6,
+            "vol_ratio": 0.61,
             "smart_money": "無明顯大戶異常動向",
             "poc_price": 737.31,
             "actual_sl": 0.03,
@@ -3032,24 +3032,8 @@
             "symbol": "2330.TW",
             "name": "台積電",
             "category": "晶圓代工",
-            "price": 2400.0,
+            "price": 2415.0,
             "history": [
-                {
-                    "date": "2026-06-01",
-                    "price": 2355.0,
-                    "volume": 60942792,
-                    "ma5": 2315.0,
-                    "ma20": 2267.25,
-                    "ma60": 2059.83,
-                    "macd": 54.8,
-                    "macd_signal": 53.41,
-                    "macd_hist": 1.4,
-                    "rsi": 61.63,
-                    "bb_upper": 2357.13,
-                    "bb_lower": 2177.37,
-                    "atr": 56.79,
-                    "trailing_stop": 2273.04
-                },
                 {
                     "date": "2026-06-02",
                     "price": 2380.0,
@@ -3993,20 +3977,36 @@
                     "bb_lower": 2243.34,
                     "atr": 37.5,
                     "trailing_stop": 2308.21
+                },
+                {
+                    "date": "2026-08-26",
+                    "price": 2415.0,
+                    "volume": 19261541,
+                    "ma5": 2395.0,
+                    "ma20": 2379.25,
+                    "ma60": 2383.25,
+                    "macd": 7.55,
+                    "macd_signal": 4.74,
+                    "macd_hist": 2.81,
+                    "rsi": 58.33,
+                    "bb_upper": 2477.51,
+                    "bb_lower": 2280.99,
+                    "atr": 37.86,
+                    "trailing_stop": 2330.36
                 }
             ],
-            "vol_ratio": 0.47,
+            "vol_ratio": 0.73,
             "smart_money": "⚖️【法人觀望】近五日外資淨動向 0 張，投信 0 張。",
             "poc_price": 2416.25,
             "actual_sl": 0.04,
-            "rsi": 49.23,
+            "rsi": 58.33,
             "rs_score": 0,
             "unified_brain": {
                 "pattern": "連線異常",
                 "bull": "API中斷",
                 "bear": "API中斷",
                 "trap": "API中斷",
-                "stop_price": 2280.0,
+                "stop_price": 2294.25,
                 "sizing": "防禦狀態",
                 "action": "觀望",
                 "confidence": 0,
@@ -4019,7 +4019,7 @@
             },
             "funda_summary": "🤖 AI 財報解讀中斷，請手動確認風險。",
             "best_ma_name": "20MA",
-            "best_ma_price": 2368.5,
+            "best_ma_price": 2379.25,
             "event_warning": "",
             "lights": {
                 "short": "⚪",
@@ -4034,31 +4034,15 @@
                 "fib500": 2357.5,
                 "fib618": 2315.61
             },
-            "volume_trend": "縮量上漲(動能不足)",
+            "volume_trend": "放量上漲(強勢確認)",
             "weekly_trend": "週線多頭(站上20週MA)"
         },
         {
             "symbol": "2337.TW",
             "name": "旺宏",
             "category": "記憶體",
-            "price": 122.0,
+            "price": 125.5,
             "history": [
-                {
-                    "date": "2026-06-01",
-                    "price": 167.5,
-                    "volume": 190490552,
-                    "ma5": 162.0,
-                    "ma20": 158.0,
-                    "ma60": 141.08,
-                    "macd": 3.9,
-                    "macd_signal": 3.29,
-                    "macd_hist": 0.61,
-                    "rsi": 59.01,
-                    "bb_upper": 176.34,
-                    "bb_lower": 139.66,
-                    "atr": 12.75,
-                    "trailing_stop": 143.12
-                },
                 {
                     "date": "2026-06-02",
                     "price": 175.5,
@@ -5002,20 +4986,36 @@
                     "bb_lower": 96.64,
                     "atr": 8.57,
                     "trailing_stop": 118.89
+                },
+                {
+                    "date": "2026-08-26",
+                    "price": 125.5,
+                    "volume": 23901798,
+                    "ma5": 123.2,
+                    "ma20": 122.67,
+                    "ma60": 138.09,
+                    "macd": -1.88,
+                    "macd_signal": -2.38,
+                    "macd_hist": 0.5,
+                    "rsi": 46.73,
+                    "bb_upper": 145.79,
+                    "bb_lower": 99.54,
+                    "atr": 7.93,
+                    "trailing_stop": 118.89
                 }
             ],
-            "vol_ratio": 0.39,
+            "vol_ratio": 0.29,
             "smart_money": "⚖️【法人觀望】近五日外資淨動向 0 張，投信 0 張。",
             "poc_price": 154.69,
             "actual_sl": 0.03,
-            "rsi": 53.66,
+            "rsi": 46.73,
             "rs_score": 0,
             "unified_brain": {
                 "pattern": "連線異常",
                 "bull": "API中斷",
                 "bear": "API中斷",
                 "trap": "API中斷",
-                "stop_price": 115.9,
+                "stop_price": 119.22,
                 "sizing": "防禦狀態",
                 "action": "觀望",
                 "confidence": 0,
@@ -5028,7 +5028,7 @@
             },
             "funda_summary": "🤖 AI 財報解讀中斷，請手動確認風險。",
             "best_ma_name": "5MA",
-            "best_ma_price": 121.9,
+            "best_ma_price": 123.2,
             "event_warning": "",
             "lights": {
                 "short": "⚪",
@@ -6059,24 +6059,8 @@
             "symbol": "0050.TW",
             "name": "台灣50",
             "category": "台股龍頭",
-            "price": 104.4,
+            "price": 105.9,
             "history": [
-                {
-                    "date": "2026-06-01",
-                    "price": 105.5,
-                    "volume": 135817122,
-                    "ma5": 102.81,
-                    "ma20": 97.71,
-                    "ma60": 86.11,
-                    "macd": 3.96,
-                    "macd_signal": 3.46,
-                    "macd_hist": 0.49,
-                    "rsi": 68.06,
-                    "bb_upper": 105.03,
-                    "bb_lower": 90.39,
-                    "atr": 2.66,
-                    "trailing_stop": 100.04
-                },
                 {
                     "date": "2026-06-02",
                     "price": 105.7,
@@ -7020,20 +7004,36 @@
                     "bb_lower": 95.94,
                     "atr": 1.52,
                     "trailing_stop": 100.63
+                },
+                {
+                    "date": "2026-08-26",
+                    "price": 105.9,
+                    "volume": 88919251,
+                    "ma5": 104.51,
+                    "ma20": 103.66,
+                    "ma60": 104.3,
+                    "macd": 0.55,
+                    "macd_signal": 0.43,
+                    "macd_hist": 0.12,
+                    "rsi": 60.4,
+                    "bb_upper": 109.33,
+                    "bb_lower": 97.98,
+                    "atr": 1.61,
+                    "trailing_stop": 102.02
                 }
             ],
-            "vol_ratio": 0.47,
+            "vol_ratio": 0.83,
             "smart_money": "⚖️【法人觀望】近五日外資淨動向 0 張，投信 0 張。",
             "poc_price": 100.48,
             "actual_sl": 0.1,
-            "rsi": 52.61,
+            "rsi": 60.4,
             "rs_score": 0,
             "unified_brain": {
                 "pattern": "連線異常",
                 "bull": "API中斷",
                 "bear": "API中斷",
                 "trap": "API中斷",
-                "stop_price": 99.18,
+                "stop_price": 100.6,
                 "sizing": "防禦狀態",
                 "action": "觀望",
                 "confidence": 0,
@@ -7045,8 +7045,8 @@
                 "news_score": 0
             },
             "funda_summary": "🤖 AI 財報解讀中斷，請手動確認風險。",
-            "best_ma_name": "10MA",
-            "best_ma_price": 104.94,
+            "best_ma_name": "20MA",
+            "best_ma_price": 103.66,
             "event_warning": "",
             "lights": {
                 "short": "⚪",
@@ -7068,24 +7068,8 @@
             "symbol": "00981A.TW",
             "name": "主動統一台股增長",
             "category": "台股",
-            "price": 28.77,
+            "price": 29.44,
             "history": [
-                {
-                    "date": "2026-06-01",
-                    "price": 31.7,
-                    "volume": 254690698,
-                    "ma5": 31.48,
-                    "ma20": 29.74,
-                    "ma60": 25.07,
-                    "macd": 1.35,
-                    "macd_signal": 1.29,
-                    "macd_hist": 0.07,
-                    "rsi": 58.44,
-                    "bb_upper": 32.53,
-                    "bb_lower": 26.95,
-                    "atr": 1.12,
-                    "trailing_stop": 30.03
-                },
                 {
                     "date": "2026-06-02",
                     "price": 31.33,
@@ -8029,20 +8013,36 @@
                     "bb_lower": 24.6,
                     "atr": 0.79,
                     "trailing_stop": 27.81
+                },
+                {
+                    "date": "2026-08-26",
+                    "price": 29.44,
+                    "volume": 150955269,
+                    "ma5": 28.93,
+                    "ma20": 28.52,
+                    "ma60": 29.41,
+                    "macd": 0.2,
+                    "macd_signal": 0.14,
+                    "macd_hist": 0.06,
+                    "rsi": 54.66,
+                    "bb_upper": 31.55,
+                    "bb_lower": 25.49,
+                    "atr": 0.79,
+                    "trailing_stop": 27.81
                 }
             ],
-            "vol_ratio": 0.74,
+            "vol_ratio": 0.6,
             "smart_money": "⚖️【法人觀望】近五日外資淨動向 0 張，投信 0 張。",
             "poc_price": 29.83,
             "actual_sl": 0.1,
-            "rsi": 52.52,
+            "rsi": 54.66,
             "rs_score": 0,
             "unified_brain": {
                 "pattern": "連線異常",
                 "bull": "API中斷",
                 "bear": "API中斷",
                 "trap": "API中斷",
-                "stop_price": 27.33,
+                "stop_price": 27.97,
                 "sizing": "防禦狀態",
                 "action": "觀望",
                 "confidence": 0,
@@ -8055,7 +8055,7 @@
             },
             "funda_summary": "🤖 AI 財報解讀中斷，請手動確認風險。",
             "best_ma_name": "5MA",
-            "best_ma_price": 28.85,
+            "best_ma_price": 28.93,
             "event_warning": "",
             "lights": {
                 "short": "⚪",
@@ -8070,31 +8070,15 @@
                 "fib500": 27.85,
                 "fib618": 26.75
             },
-            "volume_trend": "放量下跌(主力出貨警訊)",
-            "weekly_trend": "週線空頭(跌破20週MA)"
+            "volume_trend": "放量上漲(強勢確認)",
+            "weekly_trend": "週線多頭(站上20週MA)"
         },
         {
             "symbol": "9802.TW",
             "name": "鈺齊-KY",
             "category": "運動鞋",
-            "price": 73.0,
+            "price": 72.6,
             "history": [
-                {
-                    "date": "2026-06-01",
-                    "price": 77.7,
-                    "volume": 1651501,
-                    "ma5": 74.52,
-                    "ma20": 77.15,
-                    "ma60": 79.11,
-                    "macd": -1.05,
-                    "macd_signal": -0.98,
-                    "macd_hist": -0.07,
-                    "rsi": 40.62,
-                    "bb_upper": 83.18,
-                    "bb_lower": 71.11,
-                    "atr": 2.12,
-                    "trailing_stop": 72.5
-                },
                 {
                     "date": "2026-06-02",
                     "price": 80.5,
@@ -9038,20 +9022,36 @@
                     "bb_lower": 68.77,
                     "atr": 1.73,
                     "trailing_stop": 69.72
+                },
+                {
+                    "date": "2026-08-26",
+                    "price": 72.6,
+                    "volume": 476000,
+                    "ma5": 72.12,
+                    "ma20": 71.55,
+                    "ma60": 74.22,
+                    "macd": -0.32,
+                    "macd_signal": -0.59,
+                    "macd_hist": 0.27,
+                    "rsi": 60.63,
+                    "bb_upper": 74.32,
+                    "bb_lower": 68.78,
+                    "atr": 1.71,
+                    "trailing_stop": 69.72
                 }
             ],
-            "vol_ratio": 0.51,
+            "vol_ratio": 0.62,
             "smart_money": "⚖️【法人觀望】近五日外資淨動向 0 張，投信 0 張。",
-            "poc_price": 80.53,
+            "poc_price": 80.48,
             "actual_sl": 0.03,
-            "rsi": 64.34,
+            "rsi": 60.63,
             "rs_score": 0,
             "unified_brain": {
                 "pattern": "連線異常",
                 "bull": "API中斷",
                 "bear": "API中斷",
                 "trap": "API中斷",
-                "stop_price": 69.35,
+                "stop_price": 68.97,
                 "sizing": "防禦狀態",
                 "action": "觀望",
                 "confidence": 0,
@@ -9064,7 +9064,7 @@
             },
             "funda_summary": "🤖 AI 財報解讀中斷，請手動確認風險。",
             "best_ma_name": "10MA",
-            "best_ma_price": 71.68,
+            "best_ma_price": 71.66,
             "event_warning": "",
             "lights": {
                 "short": "⚪",
@@ -9086,24 +9086,8 @@
             "symbol": "9910.TW",
             "name": "豐泰",
             "category": "運動鞋",
-            "price": 70.0,
+            "price": 67.9,
             "history": [
-                {
-                    "date": "2026-06-01",
-                    "price": 71.9,
-                    "volume": 3159545,
-                    "ma5": 68.96,
-                    "ma20": 70.14,
-                    "ma60": 76.66,
-                    "macd": -1.42,
-                    "macd_signal": -1.82,
-                    "macd_hist": 0.4,
-                    "rsi": 43.65,
-                    "bb_upper": 74.24,
-                    "bb_lower": 66.03,
-                    "atr": 1.81,
-                    "trailing_stop": 67.48
-                },
                 {
                     "date": "2026-06-02",
                     "price": 79.0,
@@ -10047,20 +10031,36 @@
                     "bb_lower": 67.15,
                     "atr": 1.74,
                     "trailing_stop": 68.72
+                },
+                {
+                    "date": "2026-08-26",
+                    "price": 67.9,
+                    "volume": 2334000,
+                    "ma5": 69.94,
+                    "ma20": 69.48,
+                    "ma60": 71.94,
+                    "macd": -0.03,
+                    "macd_signal": -0.02,
+                    "macd_hist": -0.0,
+                    "rsi": 41.51,
+                    "bb_upper": 72.0,
+                    "bb_lower": 66.96,
+                    "atr": 1.69,
+                    "trailing_stop": 68.72
                 }
             ],
-            "vol_ratio": 0.58,
+            "vol_ratio": 1.69,
             "smart_money": "⚖️【法人觀望】近五日外資淨動向 0 張，投信 0 張。",
             "poc_price": 70.31,
             "actual_sl": 0.1,
-            "rsi": 62.04,
+            "rsi": 41.51,
             "rs_score": 0,
             "unified_brain": {
                 "pattern": "連線異常",
                 "bull": "API中斷",
                 "bear": "API中斷",
                 "trap": "API中斷",
-                "stop_price": 66.5,
+                "stop_price": 64.5,
                 "sizing": "防禦狀態",
                 "action": "觀望",
                 "confidence": 0,
@@ -10072,15 +10072,15 @@
                 "news_score": 0
             },
             "funda_summary": "🤖 AI 財報解讀中斷，請手動確認風險。",
-            "best_ma_name": "20MA",
-            "best_ma_price": 69.62,
+            "best_ma_name": "10MA",
+            "best_ma_price": 69.71,
             "event_warning": "",
             "lights": {
                 "short": "⚪",
                 "mid": "⚪",
                 "long": "⚪"
             },
-            "divergence_signal": "⚡ RSI底背離(止跌反彈訊號)",
+            "divergence_signal": "無明顯背離",
             "fib_levels": {
                 "high": 99.0,
                 "low": 66.5,
@@ -10088,31 +10088,15 @@
                 "fib500": 82.75,
                 "fib618": 78.91
             },
-            "volume_trend": "縮量上漲(動能不足)",
+            "volume_trend": "放量下跌(主力出貨警訊)",
             "weekly_trend": "週線空頭(跌破20週MA)"
         },
         {
             "symbol": "9904.TW",
             "name": "寶成",
             "category": "運動鞋",
-            "price": 25.1,
+            "price": 25.05,
             "history": [
-                {
-                    "date": "2026-06-01",
-                    "price": 25.8,
-                    "volume": 22820802,
-                    "ma5": 25.47,
-                    "ma20": 25.76,
-                    "ma60": 27.4,
-                    "macd": -0.36,
-                    "macd_signal": -0.41,
-                    "macd_hist": 0.05,
-                    "rsi": 49.15,
-                    "bb_upper": 26.3,
-                    "bb_lower": 25.23,
-                    "atr": 0.43,
-                    "trailing_stop": 24.73
-                },
                 {
                     "date": "2026-06-02",
                     "price": 26.1,
@@ -11056,20 +11040,36 @@
                     "bb_lower": 23.24,
                     "atr": 0.46,
                     "trailing_stop": 24.12
+                },
+                {
+                    "date": "2026-08-26",
+                    "price": 25.05,
+                    "volume": 16969000,
+                    "ma5": 25.05,
+                    "ma20": 24.38,
+                    "ma60": 24.95,
+                    "macd": 0.16,
+                    "macd_signal": 0.03,
+                    "macd_hist": 0.13,
+                    "rsi": 69.12,
+                    "bb_upper": 25.52,
+                    "bb_lower": 23.24,
+                    "atr": 0.47,
+                    "trailing_stop": 24.43
                 }
             ],
-            "vol_ratio": 0.36,
+            "vol_ratio": 0.88,
             "smart_money": "⚖️【法人觀望】近五日外資淨動向 0 張，投信 0 張。",
             "poc_price": 25.98,
             "actual_sl": 0.05,
-            "rsi": 72.6,
+            "rsi": 69.12,
             "rs_score": 0,
             "unified_brain": {
                 "pattern": "連線異常",
                 "bull": "API中斷",
                 "bear": "API中斷",
                 "trap": "API中斷",
-                "stop_price": 23.84,
+                "stop_price": 23.8,
                 "sizing": "防禦狀態",
                 "action": "觀望",
                 "confidence": 0,
@@ -11082,7 +11082,7 @@
             },
             "funda_summary": "🤖 AI 財報解讀中斷，請手動確認風險。",
             "best_ma_name": "60MA",
-            "best_ma_price": 24.96,
+            "best_ma_price": 24.95,
             "event_warning": "",
             "lights": {
                 "short": "⚪",
@@ -11097,13 +11097,13 @@
                 "fib500": 25.1,
                 "fib618": 24.68
             },
-            "volume_trend": "縮量上漲(動能不足)",
+            "volume_trend": "放量下跌(主力出貨警訊)",
             "weekly_trend": "週線多頭(站上20週MA)"
         }
     ],
     "market_health": {
         "vix": 15.45,
-        "health_pct": 90,
+        "health_pct": 81,
         "us_summary": {
             "標普500": {
                 "price": 765.91,
@@ -11122,11 +11122,15 @@
                 "pct": -2.52
             },
             "紐約原油": {
-                "price": 81.08,
-                "pct": -4.62
+                "price": 80.32,
+                "pct": -2.48
             }
         },
         "sector_data": [
+            {
+                "name": "🇹🇼台股科技",
+                "rs": 4.27
+            },
             {
                 "name": "🇺🇸美股科技",
                 "rs": 4.11
@@ -11136,12 +11140,8 @@
                 "rs": -2.12
             },
             {
-                "name": "🇹🇼台股科技",
-                "rs": NaN
-            },
-            {
                 "name": "🇹🇼台股高息",
-                "rs": NaN
+                "rs": -3.57
             }
         ],
         "ai_script": {
